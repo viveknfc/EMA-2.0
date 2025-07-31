@@ -55,7 +55,7 @@ import SwiftUI
                         systemName: "note.text",
                         safeArea: proxy.safeAreaInsets,
                         content: {
-                            Text("Yadhu")
+                            Text("Second")
                         }
                        )
                        
@@ -69,7 +69,7 @@ import SwiftUI
                         systemName: "plus.circle.fill",
                         safeArea: proxy.safeAreaInsets,
                         content: {
-                            Text("Papu")
+                            Text("Third")
                         }
                        )
                        
@@ -83,7 +83,7 @@ import SwiftUI
                         systemName: "alarm",
                         safeArea: proxy.safeAreaInsets,
                         content: {
-                            Text("Settings")
+                            Text("Fourth")
                         }
                        )
                        
@@ -231,9 +231,9 @@ import SwiftUI
 
         var body: some View {
             let sampleChildren = [
-                ChildItem(name: "Algebra", apiKey: "link"),
-                ChildItem(name: "Geometry", apiKey: "link"),
-                ChildItem(name: "Trigonometry", apiKey: "link")
+                ChildItem(name: "Algebra", imageName: "notes", apiKey: "link"),
+                ChildItem(name: "Geometry", imageName: "notes", apiKey: "link"),
+                ChildItem(name: "Trigonometry", imageName: "notes", apiKey: "link")
             ]
 
             let sampleAssignments: [Dashboard_Menu_Items] = [

@@ -62,6 +62,8 @@ struct APIService {
         for (key, value) in finalHeaders {
             request.setValue(value as? String, forHTTPHeaderField: key)
         }
+        
+        print("the final URL is", request)
 
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
@@ -86,6 +88,10 @@ struct APIService {
             guard !data.isEmpty else {
                 throw NetworkError.noData
             }
+            
+//            if let rawJSON = String(data: data, encoding: .utf8) {
+//                print("🟡 Raw JSON Response: \(rawJSON)")
+//            }
 
             do {
                 return try JSONDecoder().decode(T.self, from: data)

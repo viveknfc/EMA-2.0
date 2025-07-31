@@ -16,6 +16,9 @@ class DashboardViewModel {
 
     var isLoading = false
     var errorMessage: String?
+    
+    var escapedCandidateJSONString: String?
+    var escapedDemographicsJSONString: String?
 
     func fetchDashboard() {
         Task {
@@ -31,15 +34,16 @@ class DashboardViewModel {
                 ]
                 let result = try await APIFunction.dashboardAPICalling(params: params)
 
-//                print("the result for dashbaord is ", result)
+                await candidateIDAPI(candidateId: userId)
+                await demographicAPI(candidateId: userId)
                 
                 self.dashboardData = result
                 self.menuGroups = self.groupMenuItems(result.objMenuInformationList)
                 self.dashboardMenuItems = self.menuGroups.map { group in
                     
                     let children: [ChildItem] = group.children.map {
-                        ChildItem(name: $0.linkText, apiKey: $0.apiKey)
-                    }
+                        ChildItem(name: $0.linkText, imageName: "notes" , apiKey: $0.apiKey)
+                    } //self.imageName(for: "Payroll")
                     
                     return Dashboard_Menu_Items(
                         title: group.parent.linkText,
@@ -52,6 +56,70 @@ class DashboardViewModel {
                     self.errorMessage = error.localizedDescription
                     self.isLoading = false
             }
+        }
+    }
+    
+    //MARK: - Candidate ID API Calling
+    
+    func candidateIDAPI(candidateId: Int) async {
+        let params: [String: Any] = [
+            "candidateId": candidateId
+        ]
+        do {
+            let result = try await APIFunction.candidateIdAPICalling(params: params)
+//            print("the result for candidate ID API is ", result)
+            
+            // ✅ Encode to JSON string
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(result)
+            if let jsonString = String(data: data, encoding: .utf8) {
+                let doubleEncoded = "\"\(jsonString)\"" // 👈 wraps JSON string in quotes
+                let escapedCandidateJSON = escapeForJavaScript(doubleEncoded)
+                self.escapedCandidateJSONString = escapedCandidateJSON
+
+            }
+        } catch {
+            self.errorMessage = error.localizedDescription
+        }
+    }
+    
+    //MARK: - Demographic API Calling
+    
+    func demographicAPI(candidateId: Int) async {
+        let params: [String: Any] = [
+            "candidateId": candidateId
+        ]
+        do {
+            let result = try await APIFunction.demographicAPICalling(params: params)
+//            print("the result for demographic API is ", result)
+            let accessToken = APIConstants.accessToken
+            
+            let subset = LoggedInInfo(
+                candidateId: result.candidateId,
+                accessToken: accessToken,
+                applicantId: result.candidateId,
+                companyEmail: result.companyEmail,
+                division: result.divisionId,
+                divisionName: result.divisionName,
+                email: result.email,
+                firstName: result.firstName,
+                id: result.candidateId,
+                lastName: result.lastName,
+                skills: result.skills
+            )
+            
+            
+            // ✅ Encode to JSON string
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(subset)
+            if let jsonString = String(data: data, encoding: .utf8) {
+                let doubleEncoded = "\"\(jsonString)\"" // 👈 wraps JSON string in quotes
+                let escaped = escapeForJavaScript(doubleEncoded)
+                self.escapedDemographicsJSONString = escaped
+
+            }
+        } catch {
+            self.errorMessage = error.localizedDescription
         }
     }
     

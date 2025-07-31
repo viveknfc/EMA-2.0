@@ -26,11 +26,11 @@ struct Dashboard_Screen: View {
                         .scaledToFit()
                         .frame(height: 50)
 
-                    // 2. Medium View
-                    Rectangle_Container(alignment: .topLeading) {
-                        AssignmentList_View()
-                    }
-                    .frame(height: 200)
+//                    // 2. Medium View
+//                    Rectangle_Container(alignment: .topLeading) {
+//                        AssignmentList_View()
+//                    }
+//                    .frame(height: 200)
 
                     // 3. Large View
                     Rectangle_Container {
@@ -67,9 +67,9 @@ struct Dashboard_Screen: View {
 
         var body: some View {
             let sampleChildren = [
-                ChildItem(name: "Algebra", apiKey: "link"),
-                ChildItem(name: "Geometry", apiKey: "link"),
-                ChildItem(name: "Trigonometry", apiKey: "link")
+                ChildItem(name: "Algebra", imageName: "banknote", apiKey: "link"),
+                ChildItem(name: "Geometry", imageName: "banknote", apiKey: "link"),
+                ChildItem(name: "Trigonometry", imageName: "banknote", apiKey: "link")
             ]
 
             let sampleAssignments: [Dashboard_Menu_Items] = [

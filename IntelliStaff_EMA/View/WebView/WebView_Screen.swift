@@ -9,21 +9,44 @@ import SwiftUI
 
 struct WebView_Screen: View {
     
-    let urlKey: String
+    var urlKey: String
     @State private var isLoading = true
     @Environment(\.dismiss) private var dismiss
     
+    @Bindable var viewModel: DashboardViewModel
+    let payload = buildWebViewPayload()
+    
+    var cleanedURLKey: String {
+        var modified = urlKey
+        if let range = modified.range(of: "&headless=true") {
+            modified.removeSubrange(range)
+        }
+        return modified
+    }
+    
+    var fullURL: URL {
+        let base = APIConstants.baseURL
+        let support = "EWA2"
+        let combined =  "\(base)\(support)/\(cleanedURLKey)"
+
+        return URL(string: combined) ?? URL(string: "https://example.com")!
+    }
+    
     var body: some View {
-        let fullURL = URL(string: "https://www.google.com/")!
 
         ZStack {
-            WebView(url: fullURL, isLoading: $isLoading)
+            WebView(url: fullURL, isLoading: $isLoading, candidateData: viewModel.escapedCandidateJSONString ?? "", candidateInfo: viewModel.escapedDemographicsJSONString ?? "",currentUserJson: payload.currentUserJson, keyGuard: payload.keyGuard,     keyName: payload.keyName,
+                accessToken: payload.accessToken,
+                isHeadless: true)
             
             if isLoading {
                 Color.black.opacity(0.5)
                     .ignoresSafeArea()
                 TriangleLoader()
             }
+        }
+        .onAppear {
+            print("Full URL: \(fullURL)")
         }
         .navigationTitle("Tempositions")
         .navigationBarBackButtonHidden(true)
@@ -44,7 +67,12 @@ struct WebView_Screen: View {
 }
 
 #Preview {
+    let mock = DashboardViewModel()
+    mock.escapedCandidateJSONString = "{\"CandidateID\":123,\"Name\":\"Preview User\"}"
 
-    WebView_Screen(urlKey: "https://www.google.com/")
-    
+    return WebView_Screen(
+        urlKey: "previewKey",
+        viewModel: mock
+    )
 }
+

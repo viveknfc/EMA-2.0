@@ -54,9 +54,9 @@ struct Dashboard_Menu_Card: View {
 
 #Preview {
     let sampleChildren = [
-        ChildItem(name: "Algebra", apiKey: "link"),
-        ChildItem(name: "Geometry", apiKey: "link"),
-        ChildItem(name: "Trigonometry", apiKey: "link")
+        ChildItem(name: "Algebra", imageName: "banknote", apiKey: "link"),
+        ChildItem(name: "Geometry", imageName: "banknote", apiKey: "link"),
+        ChildItem(name: "Trigonometry", imageName: "banknote", apiKey: "link")
     ]
     let menu = Dashboard_Menu_Items(title: "Math", imageName: "book.closed", itemCount: 4, children: sampleChildren)
     Dashboard_Menu_Card(assignment: menu)

@@ -63,6 +63,8 @@ class LoginViewModel {
             UserDefaults.standard.set(response.refreshToken, forKey: "refreshToken")
             UserDefaults.standard.set(response.accessToken, forKey: "accessToken")
             UserDefaults.standard.set(response.expiresIn, forKey: "expiresIn")
+            UserDefaults.standard.set(username, forKey: "Username")
+            UserDefaults.standard.set(password, forKey: "Password")
             
             if let userId = decodeUserIdFromJWT(response.accessToken) {
                 UserDefaults.standard.set(userId, forKey: "userId")

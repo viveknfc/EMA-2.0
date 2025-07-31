@@ -19,7 +19,7 @@ enum AppRoute: Hashable {
 // AppRoute+ViewFactory.swift
 extension AppRoute {
     @MainActor @ViewBuilder
-    func destinationView(path: Binding<[AppRoute]>) -> some View {
+    func destinationView(path: Binding<[AppRoute]>, dashboardViewModel: DashboardViewModel) -> some View {
         switch self {
         case .login:
             Login_Screen(path: path)
@@ -30,9 +30,9 @@ extension AppRoute {
         case .newPassword:
             NewPassword_Screen(path: path)
         case .dashboard:
-            CurveConcavePreview(path: path, dashboardViewModel: DashboardViewModel())
+            CurveConcavePreview(path: path, dashboardViewModel: dashboardViewModel)
         case .webView(let apiKey):
-            WebView_Screen(urlKey: apiKey)
+            WebView_Screen(urlKey: apiKey, viewModel: dashboardViewModel)
         }
     }
 }

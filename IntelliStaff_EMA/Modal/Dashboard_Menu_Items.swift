@@ -22,6 +22,7 @@ struct MenuGroup {
 struct ChildItem: Identifiable, Equatable {
     let id = UUID()
     let name: String
+    let imageName: String
     let apiKey: String
 }
 

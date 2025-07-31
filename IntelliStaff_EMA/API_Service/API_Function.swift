@@ -30,4 +30,19 @@ struct APIFunction {
         return try await APIService.request(url: url, method: .post, urlParams: params)
     }
     
+    //MARK: - Candidate Id API
+    
+    static func candidateIdAPICalling(params: [String: Any]) async throws -> CandidateIdModel {
+        let url = APIConstants.baseURL + APIConstants.CandidateDetailsAPI
+        return try await APIService.request(url: url, urlParams: params)
+    }
+    
+    //MARK: - Demographic Details API
+    
+    static func demographicAPICalling(params: [String: Any]) async throws -> CandidateInfo {
+        let url = APIConstants.baseURL + APIConstants.demoGraphicDetailsAPI
+        return try await APIService.request(url: url, urlParams: params)
+    }
+
+    
 }

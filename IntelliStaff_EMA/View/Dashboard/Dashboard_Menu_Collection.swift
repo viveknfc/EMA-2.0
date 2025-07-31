@@ -70,9 +70,9 @@ struct DashboardMenuCollectionPreviewWrapper: View {
     var body: some View {
         
         let sampleChildren = [
-            ChildItem(name: "Algebra", apiKey: "link"),
-            ChildItem(name: "Geometry", apiKey: "link"),
-            ChildItem(name: "Trigonometry", apiKey: "link")
+            ChildItem(name: "Algebra", imageName: "banknote", apiKey: "link"),
+            ChildItem(name: "Geometry", imageName: "banknote", apiKey: "link"),
+            ChildItem(name: "Trigonometry", imageName: "banknote", apiKey: "link")
         ]
 
         let assignments: [Dashboard_Menu_Items] = [

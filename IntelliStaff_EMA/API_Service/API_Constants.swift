@@ -17,5 +17,6 @@ enum APIConstants {
     static var LoginAPI = "auth/api/User/token"
     
     static var EMADashboardDetails = "candidateapi/api/Candidate/GetEMADashboardDetails"
-    
+    static var CandidateDetailsAPI = "candidateapi/api/Candidate/CandidateDetails"
+    static var demoGraphicDetailsAPI = "eregisterapi/api/personalInfo/demographics"
 }

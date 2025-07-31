@@ -47,9 +47,17 @@ struct Children_BottomSheet_View: View {
                 VStack(spacing: 10) {
                     ForEach(children) { child in
                         VStack(alignment: .leading, spacing: 8) {
-                            Text(child.name)
-                                .font(.buttonFont)
-                                .padding(.horizontal, 32)
+                            HStack(spacing: 12) {
+                                
+                                Image(child.imageName)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 12, height: 12)
+                                
+                                Text(child.name)
+                                    .font(.buttonFont)
+
+                            }              .padding(.horizontal, 32)
                                 .padding(.top, 12)
 
                             DottedLine()
@@ -79,9 +87,9 @@ struct Children_BottomSheet_View: View {
             Children_BottomSheet_View(
                 parentTitle: "Math Subjects",
                 children: [
-                    ChildItem(name: "Algebra", apiKey: "algebra123"),
-                    ChildItem(name: "Geometry", apiKey: "geometry456"),
-                    ChildItem(name: "Trigonometry", apiKey: "trig789")
+                    ChildItem(name: "Algebra", imageName: "notes", apiKey: "algebra123"),
+                    ChildItem(name: "Geometry", imageName: "notes", apiKey: "geometry456"),
+                    ChildItem(name: "Trigonometry", imageName: "notes", apiKey: "trig789")
                 ],
                 onDismiss: { print("Dismissed") },
                 path: $dummyPath

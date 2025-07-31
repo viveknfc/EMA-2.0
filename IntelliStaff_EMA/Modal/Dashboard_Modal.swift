@@ -5,13 +5,13 @@
 //  Created by Vivek Lakshmanan on 20/07/25.
 //
 
-struct DashboardResponse: Decodable {
+struct DashboardResponse: Codable {
     let objCandidatesModel: CandidateModel
     let objMenuInformationList: [MenuItem]
     let objCandidateAssignmentsWithDetails: [CandidateAssignment]
 }
 
-struct CandidateModel: Decodable {
+struct CandidateModel: Codable {
     let candidateID: Int?
     let firstName: String?
     let lastName: String?
@@ -58,7 +58,7 @@ struct CandidateModel: Decodable {
     }
 }
 
-struct MenuItem: Decodable, Hashable {
+struct MenuItem: Codable, Hashable {
     let id: Int
     let linkText: String
     let apiKey: String
@@ -80,7 +80,7 @@ struct MenuItem: Decodable, Hashable {
     }
 }
 
-struct CandidateAssignment: Decodable {
+struct CandidateAssignment: Codable {
     // Define fields when data is available
 }
 
