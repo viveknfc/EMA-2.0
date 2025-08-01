@@ -69,7 +69,7 @@ import SwiftUI
                         systemName: "plus.circle.fill",
                         safeArea: proxy.safeAreaInsets,
                         content: {
-                            Text("Third")
+                            Top_TabView()
                         }
                        )
                        
@@ -161,11 +161,11 @@ import SwiftUI
                    }
 
                    
-//                   if dashboardViewModel.isLoading {
-//                       Color.black.opacity(0.5)
-//                           .ignoresSafeArea()
-//                       TriangleLoader()
-//                   }
+                   if dashboardViewModel.isLoading {
+                       Color.black.opacity(0.5)
+                           .ignoresSafeArea()
+                       TriangleLoader()
+                   }
                    
 
                }

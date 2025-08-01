@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		33D410282E3B7A420047E727 /* SSDateTimePicker in Frameworks */ = {isa = PBXBuildFile; productRef = 33D410272E3B7A420047E727 /* SSDateTimePicker */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		F567CFA62E24CC3800A05CE7 /* IntelliStaff_EMA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntelliStaff_EMA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33D410282E3B7A420047E727 /* SSDateTimePicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = IntelliStaff_EMA;
 			packageProductDependencies = (
+				33D410272E3B7A420047E727 /* SSDateTimePicker */,
 			);
 			productName = IntelliStaff_EMA;
 			productReference = F567CFA62E24CC3800A05CE7 /* IntelliStaff_EMA.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = F567CF9D2E24CC3800A05CE7;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				33D410262E3B7A420047E727 /* XCRemoteSwiftPackageReference "SSDateTimePicker" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F567CFA72E24CC3800A05CE7 /* Products */;
 			projectDirPath = "";
@@ -255,6 +264,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "IntelliStaff-EMA-Info.plist";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide personalized features based on your area.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -284,6 +294,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "IntelliStaff-EMA-Info.plist";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide personalized features based on your area.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -324,6 +335,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		33D410262E3B7A420047E727 /* XCRemoteSwiftPackageReference "SSDateTimePicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimformSolutionsPvtLtd/SSDateTimePicker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		33D410272E3B7A420047E727 /* SSDateTimePicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 33D410262E3B7A420047E727 /* XCRemoteSwiftPackageReference "SSDateTimePicker" */;
+			productName = SSDateTimePicker;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F567CF9E2E24CC3800A05CE7 /* Project object */;
 }
