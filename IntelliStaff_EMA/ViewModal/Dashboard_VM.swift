@@ -19,6 +19,11 @@ class DashboardViewModel {
     
     var escapedCandidateJSONString: String?
     var escapedDemographicsJSONString: String?
+    
+    var candidateID: Int?
+    var ssn: String?
+    var clientId: Int?
+    var lastName: String?
 
     func fetchDashboard() {
         Task {
@@ -69,6 +74,11 @@ class DashboardViewModel {
             let result = try await APIFunction.candidateIdAPICalling(params: params)
 //            print("the result for candidate ID API is ", result)
             
+            self.candidateID = result.candidateID
+            self.ssn = result.ssn
+            self.clientId = result.clientId
+            self.lastName = result.lastName
+            
             // ✅ Encode to JSON string
             let encoder = JSONEncoder()
             let data = try encoder.encode(result)
@@ -91,7 +101,7 @@ class DashboardViewModel {
         ]
         do {
             let result = try await APIFunction.demographicAPICalling(params: params)
-//            print("the result for demographic API is ", result)
+            print("the result for demographic API is ", result)
             let accessToken = APIConstants.accessToken
             
             let subset = LoggedInInfo(

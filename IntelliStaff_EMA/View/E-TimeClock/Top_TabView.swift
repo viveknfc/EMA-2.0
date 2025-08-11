@@ -16,6 +16,11 @@ struct Top_TabView: View {
     }
 
     @State private var selectedTab: Tab = .first
+    
+    let candidateID: Int?
+    let ssn: String?
+    let clientId: Int?
+    let lastName: String?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -56,9 +61,9 @@ struct Top_TabView: View {
             ZStack {
                 switch selectedTab {
                 case .first:
-                    e_TimeClock()
+                    e_TimeClock(candidateID: candidateID, ssn: ssn, clientId: clientId, lastName: lastName)
                 case .second:
-                    History_View()
+                    History_View(candidateID: candidateID, ssn: ssn, clientId: clientId, lastName: lastName)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -75,5 +80,5 @@ struct Top_TabView: View {
 }
 
 #Preview {
-    Top_TabView()
+    Top_TabView(candidateID: 12, ssn: "", clientId: 12, lastName: "")
 }

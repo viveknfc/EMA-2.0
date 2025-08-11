@@ -53,7 +53,7 @@ struct APIService {
         var finalHeaders = headers ?? [:]
         
         if !APIConstants.accessToken.isEmpty {
-//            print("the access token from api call is : \(APIConstants.accessToken)")
+            print("the access token from api call is : \(APIConstants.accessToken)")
             finalHeaders["Authorization"] = "Bearer \(APIConstants.accessToken)"
         }
 

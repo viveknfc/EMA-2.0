@@ -13,6 +13,7 @@ struct Custom_Calander_View: View {
     @Binding var selectedDate: Date?
     
     var onDateSelection: ((Date) -> Void)? = nil
+    var disabledDates: [Date] = []
 
     var body: some View {
         ZStack {
@@ -23,9 +24,7 @@ struct Custom_Calander_View: View {
                     onDateSelection?(date)
                 })
                 .popupOverlayColor(.clear)
-//                .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill available space
-//                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2) 
-
+                .disableDates(disabledDates)
         }
     }
 }

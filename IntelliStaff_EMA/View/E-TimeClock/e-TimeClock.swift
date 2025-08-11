@@ -14,6 +14,11 @@ struct e_TimeClock: View {
     var Button3: String = "Lunch Return"
     var Button4: String = "Clock Out"
     
+    let candidateID: Int?
+    let ssn: String?
+    let clientId: Int?
+    let lastName: String?
+    
     var body: some View {
         VStack (spacing: 30) {
             Rounded_Rectangle_Button(title: Button1) {
@@ -38,5 +43,5 @@ struct e_TimeClock: View {
 }
 
 #Preview {
-    e_TimeClock()
+    e_TimeClock(candidateID: 12, ssn: "", clientId: 12, lastName: "")
 }

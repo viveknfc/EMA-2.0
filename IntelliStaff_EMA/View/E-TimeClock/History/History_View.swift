@@ -12,11 +12,30 @@ struct History_View: View {
     @State private var selectedDate: Date? = nil
 
     @State private var startDate: Date? = nil
-    @State private var endDate: Date? = nil
-    @State private var isSelectingStartDate = true
     
     @State private var toastMessage = ""
-    @State private var showToast = false
+    
+    let candidateID: Int?
+    let ssn: String?
+    let clientId: Int?
+    let lastName: String?
+    
+    private var nonSundayDates: [Date] {
+        let calendar = Calendar.current
+        let today = Date()
+        let start = calendar.date(byAdding: .year, value: -1, to: today)!
+        let end = calendar.date(byAdding: .year, value: 1, to: today)!
+        
+        var result: [Date] = []
+        var current = start
+        while current <= end {
+            if calendar.component(.weekday, from: current) != 1 { // Not Sunday
+                result.append(current)
+            }
+            current = calendar.date(byAdding: .day, value: 1, to: current)!
+        }
+        return result
+    }
 
     var body: some View {
         GeometryReader { geo in
@@ -25,11 +44,10 @@ struct History_View: View {
                     HStack(spacing: 16) {
                         // Start Date Field
                         Button(action: {
-                            isSelectingStartDate = true
                             showDatePicker = true
                         }) {
                             HStack {
-                                Text(startDate != nil ? formattedDate(startDate!) : "Start Date")
+                                Text(startDate != nil ? formattedDate(startDate!) : "Enter Weekend Date")
                                     .foregroundColor(startDate == nil ? .gray : .black)
                                     .font(.buttonFont)
                                     .lineLimit(1)
@@ -41,25 +59,7 @@ struct History_View: View {
                             .frame(height: 40)
                             .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray))
                         }
-                        
-                        // End Date Field - same structure with fixed width
-                        Button(action: {
-                            isSelectingStartDate = false
-                            showDatePicker = true
-                        }) {
-                            HStack {
-                                Text(endDate != nil ? formattedDate(endDate!) : "End Date")
-                                    .foregroundColor(endDate == nil ? .gray : .black)
-                                    .font(.buttonFont)
-                                    .lineLimit(1)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                Image(systemName: "calendar")
-                                    .foregroundColor(.theme)
-                            }
-                            .padding()
-                            .frame(height: 40)
-                            .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray))
-                        }
+
                     }
                     
                     // MARK: - Scrollable History Cards
@@ -90,48 +90,22 @@ struct History_View: View {
                         VStack {
                             Custom_Calander_View(
                                 showDatePicker: $showDatePicker,
-                                selectedDate: $selectedDate
-                            ){ date in
-                                selectedDate = date
-                                
-                                if isSelectingStartDate {
-                                    if let end = endDate, Calendar.current.isDate(date, inSameDayAs: end) || date > end {
-                                        toastMessage = "Start date cannot be same as or after end date."
-                                        showToast = true
-                                    } else {
-                                        startDate = date
-                                        print("Start Date Selected: \(formattedDate(date))")
-                                        showDatePicker = false
-                                    }
-                                } else {
-                                    if let start = startDate, Calendar.current.isDate(date, inSameDayAs: start) || date < start {
-                                        toastMessage = "End date cannot be same as or before start date."
-                                        showToast = true
-                                    } else {
-                                        endDate = date
-                                        print("End Date Selected: \(formattedDate(date))")
-                                        showDatePicker = false
-                                    }
-                                }
-                            }
+                                selectedDate: $selectedDate,
+                                onDateSelection: { date in
+                                    selectedDate = date
+                                    startDate = date
+                                    print("Start Date Selected: \(formattedDate(date))")
+                                    showDatePicker = false
+                                },
+                                disabledDates: nonSundayDates
+                            )
                             .frame(maxWidth: .infinity, maxHeight: .infinity) // Add this
                             .clipped()
+
                         }
                     }
                     .zIndex(10)
                 }
-            }
-            
-            // Toast view (on top)
-            if showToast {
-                Toast_View(message: toastMessage)
-                    .zIndex(1)
-                    .position(x: geo.size.width / 2, y: geo.size.height - 120)
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            showToast = false
-                        }
-                    }
             }
             
         }
@@ -148,5 +122,5 @@ struct History_View: View {
 
 
 #Preview {
-    History_View()
+    History_View(candidateID: 12, ssn: "", clientId: 12, lastName: "")
 }

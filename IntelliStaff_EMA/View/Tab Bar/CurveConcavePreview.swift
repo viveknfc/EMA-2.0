@@ -69,7 +69,12 @@ import SwiftUI
                         systemName: "plus.circle.fill",
                         safeArea: proxy.safeAreaInsets,
                         content: {
-                            Top_TabView()
+                            Top_TabView(
+                                candidateID: dashboardViewModel.candidateID,
+                                ssn: dashboardViewModel.ssn,
+                                clientId: dashboardViewModel.clientId,
+                                lastName: dashboardViewModel.lastName
+                            )
                         }
                        )
                        
