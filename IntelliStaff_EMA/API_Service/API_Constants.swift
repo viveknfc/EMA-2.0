@@ -19,4 +19,6 @@ enum APIConstants {
     static var EMADashboardDetails = "candidateapi/api/Candidate/GetEMADashboardDetails"
     static var CandidateDetailsAPI = "candidateapi/api/Candidate/CandidateDetails"
     static var demoGraphicDetailsAPI = "eregisterapi/api/personalInfo/demographics"
+    
+    static var ETimeClockHistory = "TimesheetApi/api/WebETimeClock/GetWebEtimeClockEntries"
 }

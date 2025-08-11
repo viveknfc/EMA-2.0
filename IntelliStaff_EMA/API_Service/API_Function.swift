@@ -43,6 +43,13 @@ struct APIFunction {
         let url = APIConstants.baseURL + APIConstants.demoGraphicDetailsAPI
         return try await APIService.request(url: url, urlParams: params)
     }
+    
+    //MARK: - E-Time clock History API
+    
+    static func eTimeClockHistoryAPICalling(params: [String: Any]) async throws -> [ETimeclock_History_Modal] {
+        let url = APIConstants.baseURL + APIConstants.ETimeClockHistory
+        return try await APIService.request(url: url, method: .post, parameters: params)
+    }
 
     
 }

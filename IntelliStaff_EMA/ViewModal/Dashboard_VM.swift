@@ -38,27 +38,31 @@ class DashboardViewModel {
                     "candidateId": userId
                 ]
                 let result = try await APIFunction.dashboardAPICalling(params: params)
-
+//                print("the dashbaord result is ", result)
+                
                 await candidateIDAPI(candidateId: userId)
                 await demographicAPI(candidateId: userId)
+                
+                print("candiate api finihsed calling")
                 
                 self.dashboardData = result
                 self.menuGroups = self.groupMenuItems(result.objMenuInformationList)
                 self.dashboardMenuItems = self.menuGroups.map { group in
                     
                     let children: [ChildItem] = group.children.map {
-                        ChildItem(name: $0.linkText, imageName: "notes" , apiKey: $0.apiKey)
+                        ChildItem(name: $0.linkText ?? "", imageName: "notes" , apiKey: $0.apiKey ?? "")
                     } //self.imageName(for: "Payroll")
                     
                     return Dashboard_Menu_Items(
-                        title: group.parent.linkText,
-                        imageName: self.imageName(for: group.parent.linkText), // see helper
+                        title: group.parent.linkText ?? "",
+                        imageName: self.imageName(for: group.parent.linkText ?? ""), // see helper
                         itemCount: group.children.count, children: children
                     )
                 }
                 self.isLoading = false
             } catch {
                     self.errorMessage = error.localizedDescription
+                    print("the error for dashbaord fetching api is ", self.errorMessage ?? "")
                     self.isLoading = false
             }
         }
@@ -72,7 +76,6 @@ class DashboardViewModel {
         ]
         do {
             let result = try await APIFunction.candidateIdAPICalling(params: params)
-//            print("the result for candidate ID API is ", result)
             
             self.candidateID = result.candidateID
             self.ssn = result.ssn
@@ -101,7 +104,7 @@ class DashboardViewModel {
         ]
         do {
             let result = try await APIFunction.demographicAPICalling(params: params)
-            print("the result for demographic API is ", result)
+//            print("the result for demographic API is ", result)
             let accessToken = APIConstants.accessToken
             
             let subset = LoggedInInfo(
@@ -138,7 +141,7 @@ class DashboardViewModel {
     private func groupMenuItems(_ items: [MenuItem]) -> [MenuGroup] {
         let parents = items.filter { $0.parentMenuId == nil }
         return parents.map { parent in
-            let children = items.filter { $0.parentMenuId == parent.id }
+            let children = items.filter { $0.parentMenuId == parent.menuId }
             return MenuGroup(parent: parent, children: children)
         }
     }

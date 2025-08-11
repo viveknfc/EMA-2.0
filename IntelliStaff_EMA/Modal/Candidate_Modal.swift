@@ -18,8 +18,8 @@ struct CandidateIdModel: Codable {
     let employedSince, dateEntered, dateAvailable, submitDateTime: String?
     let createdOn, modifiedOn: String?
     let apt: String?
-    let dnrChecked: Int?
-    let fax, rep: String?
+    let dnrChecked, rep: Int?
+    let fax : String?
     let statusId, onBoardingStausId, subStatusId: Int?
     let userId: Int?
     let dnrDescription, status, subStatus, onBoardingStaus: String?

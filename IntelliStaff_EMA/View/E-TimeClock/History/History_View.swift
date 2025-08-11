@@ -14,6 +14,7 @@ struct History_View: View {
     @State private var startDate: Date? = nil
     
     @State private var toastMessage = ""
+    @State private var viewModel = HistoryViewModel()
     
     let candidateID: Int?
     let ssn: String?
@@ -65,8 +66,11 @@ struct History_View: View {
                     // MARK: - Scrollable History Cards
                     ScrollView(showsIndicators: false) {
                         VStack(spacing: 16) {
-                            ForEach(0..<5) { _ in
-                                History_Card()
+//                            ForEach(0..<5) { _ in
+//                                History_Card()
+//                            }
+                            ForEach(viewModel.historyData) { entry in History_Card(entry: entry)
+                                
                             }
                         }
                         .padding(.top, 10)
@@ -76,6 +80,7 @@ struct History_View: View {
                 }
                 .padding(.top, 20)
                 .padding()
+                
                 
                 // Date Picker Overlay
                 if showDatePicker {
@@ -96,6 +101,19 @@ struct History_View: View {
                                     startDate = date
                                     print("Start Date Selected: \(formattedDate(date))")
                                     showDatePicker = false
+                                    
+                                    if let candidateID, let ssn, let lastName {
+                                           Task {
+                                               await viewModel.fetchHistory(
+                                                   candidateID: candidateID,
+                                                   clientId: clientId ?? 0,
+                                                   lastName: lastName,
+                                                   ssn: ssn,
+                                                   weekend: date
+                                               )
+                                           }
+                                       }
+                                    
                                 },
                                 disabledDates: nonSundayDates
                             )
@@ -107,9 +125,31 @@ struct History_View: View {
                     .zIndex(10)
                 }
             }
-            
+            .onAppear {
+                // Only require candidateID, ssn, and lastName — clientId can be nil
+                if let candidateID, let ssn, let lastName {
+                    let nextSunday = Calendar.current.nextDate(
+                        after: Date(),
+                        matching: DateComponents(weekday: 1),
+                        matchingPolicy: .nextTime
+                    ) ?? Date()
+                    
+                    startDate = nextSunday
+                    
+                    Task {
+                        await viewModel.fetchHistory(
+                            candidateID: candidateID,
+                            clientId: clientId ?? 0, // ✅ defaults to 0 if nil
+                            lastName: lastName,
+                            ssn: ssn,
+                            weekend: nextSunday
+                        )
+                    }
+                }
+            }
         }
     }
+
 
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()

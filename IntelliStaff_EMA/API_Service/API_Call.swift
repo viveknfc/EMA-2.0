@@ -53,7 +53,7 @@ struct APIService {
         var finalHeaders = headers ?? [:]
         
         if !APIConstants.accessToken.isEmpty {
-            print("the access token from api call is : \(APIConstants.accessToken)")
+//            print("the access token from api call is : \(APIConstants.accessToken)")
             finalHeaders["Authorization"] = "Bearer \(APIConstants.accessToken)"
         }
 
@@ -89,9 +89,9 @@ struct APIService {
                 throw NetworkError.noData
             }
             
-//            if let rawJSON = String(data: data, encoding: .utf8) {
-//                print("🟡 Raw JSON Response: \(rawJSON)")
-//            }
+            if let rawJSON = String(data: data, encoding: .utf8) {
+                print("🟡 Raw JSON Response: \(rawJSON)")
+            }
 
             do {
                 return try JSONDecoder().decode(T.self, from: data)
