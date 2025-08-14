@@ -27,6 +27,7 @@ import SwiftUI
        var body: some View {
            GeometryReader { proxy in
                ZStack {
+                   
                    AxisTabView(selection: $selection, constant: constant) { state in
                        ATCurveStyle(state, color: color, radius: radius, depth: concaveDepth)
                    } content: {
@@ -41,7 +42,8 @@ import SwiftUI
                         systemName: "house.fill",
                         safeArea: proxy.safeAreaInsets,
                         content: {
-                            Dashboard_Screen(viewModel: dashboardViewModel, selectedAssignment: $selectedAssignment, showSheet: $showSheet)
+//                            Dashboard_Screen(viewModel: dashboardViewModel, selectedAssignment: $selectedAssignment, showSheet: $showSheet)
+                            CustomCollectionView()
                         }
                        )
                        
@@ -102,7 +104,8 @@ import SwiftUI
                         systemName: "person.fill",
                         safeArea: proxy.safeAreaInsets,
                         content: {
-                            Text("Other Content")
+                            //Text("Other Content")
+                            ProfileModalView()
                         }
                        )
                        
