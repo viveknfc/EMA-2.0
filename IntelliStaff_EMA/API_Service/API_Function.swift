@@ -51,5 +51,16 @@ struct APIFunction {
         return try await APIService.request(url: url, method: .post, parameters: params)
     }
 
+    static func eTimeClockETCDetailsAPICalling(params: [String: Any], token:String) async throws -> GetETCDetailsResponse {
+        let url = "https://tempositionsdev.com/TemPositionsEMAAPIDEV/api/" + APIConstants.GetETCDetails
+        return try await APICaller.shared.postRequest(urlString: url, body: params, token: "\(token)")
+    }
+    
+    static func eTimeClockCandLogAPICalling(params: [String: Any], token:String) async throws -> ETimeClockResponse {
+        let url = "https://tempositionsdev.com/TemPositionsEMAAPIDEV/api/" + APIConstants.EtimeClockCandLogTimes
+        return try await APICaller.shared.postRequest(urlString: url, body: params, token: "\(token)")
+    }
+    
+    
     
 }
