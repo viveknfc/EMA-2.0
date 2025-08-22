@@ -90,7 +90,8 @@ import SwiftUI
                         systemName: "alarm",
                         safeArea: proxy.safeAreaInsets,
                         content: {
-                            Text("Fourth")
+                       // Text("Fourth")
+                           SettingsScreen()
                         }
                        )
                        

@@ -77,7 +77,7 @@ import CoreLocation
 
  
 import CoreLocation
- 
+
 class SimpleLocationManager: NSObject, CLLocationManagerDelegate {
     private let manager = CLLocationManager()
     private var completion: ((CLLocationCoordinate2D?, Error?) -> Void)?
@@ -86,7 +86,8 @@ class SimpleLocationManager: NSObject, CLLocationManagerDelegate {
     override init() {
         super.init()
         manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation // 👈 highest possible accuracy
+        manager.distanceFilter = kCLDistanceFilterNone
     }
     
     // MARK: - Closure based
@@ -97,7 +98,14 @@ class SimpleLocationManager: NSObject, CLLocationManagerDelegate {
         if status == .notDetermined {
             manager.requestWhenInUseAuthorization()
         } else if status == .authorizedWhenInUse || status == .authorizedAlways {
-            manager.requestLocation()
+            // 👇 On iOS 14+, request full accuracy if reduced accuracy is enabled
+            if #available(iOS 14.0, *), manager.accuracyAuthorization == .reducedAccuracy {
+                manager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "LocationUsage") { _ in
+                    self.manager.requestLocation()
+                }
+            } else {
+                manager.requestLocation()
+            }
         } else {
             completion(nil, NSError(domain: "LocationError",
                                     code: 1,
@@ -112,7 +120,7 @@ class SimpleLocationManager: NSObject, CLLocationManagerDelegate {
                 if let error = error {
                     continuation.resume(throwing: error)
                 } else if let coordinate = coordinate {
-                    continuation.resume(returning: coordinate)
+                    continuation.resume(returning: coordinate) // 👈 keep full precision
                 } else {
                     continuation.resume(throwing: NSError(
                         domain: "LocationError",
@@ -126,7 +134,14 @@ class SimpleLocationManager: NSObject, CLLocationManagerDelegate {
     
     // MARK: - CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        completion?(locations.last?.coordinate, nil)
+        // ✅ Take the most recent, accurate location
+        if let bestLocation = locations.last, bestLocation.horizontalAccuracy > 0 {
+            completion?(bestLocation.coordinate, nil)
+        } else {
+            completion?(nil, NSError(domain: "LocationError",
+                                     code: 4,
+                                     userInfo: [NSLocalizedDescriptionKey: "Invalid GPS fix"]))
+        }
         completion = nil
     }
     
@@ -142,6 +157,7 @@ class SimpleLocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
+    // MARK: - Async Address
     func getAddress() async throws -> String {
         try await withCheckedThrowingContinuation { continuation in
             requestAddress { address, error in
@@ -172,20 +188,26 @@ class SimpleLocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    private func reverseGeocode(coordinate: CLLocationCoordinate2D, completion: @escaping (String?, Error?) -> Void) {
+    private func reverseGeocode(coordinate: CLLocationCoordinate2D,
+                                completion: @escaping (String?, Error?) -> Void) {
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
             if let error = error {
                 completion(nil, error)
             } else if let placemark = placemarks?.first {
-                var address = ""
-                if let name = placemark.name { address += name + ", " }
-                if let locality = placemark.locality { address += locality + ", " }
-                if let administrativeArea = placemark.administrativeArea { address += administrativeArea + ", " }
-                if let postalCode = placemark.postalCode { address += postalCode + ", " }
-                if let country = placemark.country { address += country }
+                var addressParts: [String] = []
                 
-                completion(address.trimmingCharacters(in: .whitespacesAndNewlines), nil)
+                if let subThoroughfare = placemark.subThoroughfare { addressParts.append(subThoroughfare) }
+                if let thoroughfare = placemark.thoroughfare { addressParts.append(thoroughfare) }
+                if let subLocality = placemark.subLocality { addressParts.append(subLocality) }
+                if let locality = placemark.locality { addressParts.append(locality) }
+                if let subAdministrativeArea = placemark.subAdministrativeArea { addressParts.append(subAdministrativeArea) }
+                if let administrativeArea = placemark.administrativeArea { addressParts.append(administrativeArea) }
+                if let postalCode = placemark.postalCode { addressParts.append(postalCode) }
+                if let country = placemark.country { addressParts.append(country) }
+                
+                let fullAddress = addressParts.joined(separator: ", ")
+                completion(fullAddress, nil)
             } else {
                 completion(nil, NSError(domain: "LocationError",
                                         code: 2,
@@ -193,10 +215,17 @@ class SimpleLocationManager: NSObject, CLLocationManagerDelegate {
             }
         }
     }
-    
-    
 }
 
- 
 
+ 
+extension CLLocationCoordinate2D {
+    func rounded(to decimals: Int) -> CLLocationCoordinate2D {
+        let factor = pow(10.0, Double(decimals))
+        return CLLocationCoordinate2D(
+            latitude: (self.latitude * factor).rounded() / factor,
+            longitude: (self.longitude * factor).rounded() / factor
+        )
+    }
+}
  

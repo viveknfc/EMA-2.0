@@ -46,6 +46,8 @@ class DashboardViewModel {
                 print("candiate api finihsed calling")
                 
                 self.dashboardData = result
+                UserDefaults.standard.set(dashboardData?.objCandidatesModel?.email ?? "", forKey: "email")
+                print(" saved email is:   ----------- \(UserDefaults.standard.value(forKey: "email") as? String ?? "")")
                 self.menuGroups = self.groupMenuItems(result.objMenuInformationList)
                 self.dashboardMenuItems = self.menuGroups.map { group in
                     

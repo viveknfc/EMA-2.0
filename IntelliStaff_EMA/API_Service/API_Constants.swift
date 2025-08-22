@@ -24,4 +24,5 @@ enum APIConstants {
     
     static var GetETCDetails = "ETimeClock/GetETCDetails"
     static var EtimeClockCandLogTimes = "ETimeClock/EtimeClockCandLogTimes"
+    static var primaryDevice = "Account/Updatecandidateprimarydevice"
 }

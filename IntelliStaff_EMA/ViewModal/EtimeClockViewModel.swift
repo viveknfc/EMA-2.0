@@ -20,7 +20,7 @@ class ETimeClockViewModel: NSObject, ObservableObject {
     @Published var activeOrderId: Int = 0
     @Published var showLunchButtons: Bool = false
     @Published var isMultipleLunch: Bool = false
-    @Published var showMainLayout: Bool = true
+    @Published var showMainLayout: Bool = false
     @Published var noDataMessage: String = ""
     @Published var retryCount: Int = 0
     private var cancellables = Set<AnyCancellable>()
@@ -28,21 +28,13 @@ class ETimeClockViewModel: NSObject, ObservableObject {
     @Published var showAlert: Bool = false
     @Published var alertMessage: String = ""
     @Published var navigateToSettings: Bool = false
-    
+    @Published var logTimeResponse: ETimeClockResponse?
     // Button state flags (like updateButtonState in Android)
     @Published var isLoginDone: Bool = false
     @Published var isLunchOutDone: Bool = false
     @Published var isLunchInDone: Bool = false
     @Published var isLogOutDone: Bool = false
-    
-    private var locationManager: CLLocationManager?
-    
-    override init() {
-        super.init()
-        
-    }
-    
-    
+    @Published var respModel: ETimeClockResponse?
     func parseGetResponse(model: GetETCDetailsResponse) {
            isETCCheck = model.etcCheck
            showLunchButtons = model.showLunchButtons != 0
@@ -117,35 +109,68 @@ class ETimeClockViewModel: NSObject, ObservableObject {
         
        print("✅ params: \(request)")
             let response = try await APIFunction.eTimeClockCandLogAPICalling(params:  request, token: "\(userId):")
-           
+            logTimeResponse = response
             retryCount = response.retry
             print(response)
-            if response.successStatus == 0 {
-
+            
+            
+            
+            if response.successStatus == 1 {
+                            print("✅ Success: \(response.message ?? "")")
                 showAlert = true
                 alertMessage = response.message ?? ""
-               // await getETCDetails(clientId: candidate.clientId)
-            }else if response.successStatus  == 1{
-               
+                            // TODO: trigger next API if required
+                await getETCDetails(clientId: response.clientId ?? 0)
+            } else if response.successStatus == 0{
                 showAlert = true
                 alertMessage = response.message ?? ""
+                await getETCDetails(clientId: response.clientId ?? 0)
+            }else if response.retry == 1 {
+                            try await Task.sleep(nanoseconds: UInt64(response.sleep) * 1_000_000_000)
+                            await logTimeApiCall(mode: mode)
+                        } else {
+                            print("❌ Error: \(response.message ?? "")")
+                            // TODO: Navigate to settings if primary device issue
+                            if response.message?.contains("Do you want to set this device as primary") == true {
+                               navigateToSettings = true
+                               showAlert = true
+                               alertMessage = response.message ?? ""
+                           } else {
+                               await getETCDetails(clientId: 0)
+                           }
             }
-
-            else {
-                if response.retry == 1 {
-                    try await Task.sleep(nanoseconds: UInt64(response.sleep) * 1_000_000_000)
-                    await logTimeApiCall(mode: mode)
-                } else {
-                   
-                    showAlert = true
-                    alertMessage = response.message ?? "Failed"
-                    if response.message?.contains("Do you want to set this device as primary") == true {
-                       // navigateToSettings = true
-                    } else {
-                       // await getETCDetails(clientId: candidate.clientId)
-                    }
-                }
-            }
+            
+//            if response.message?.contains("Do you want to set this device as primary") == true {
+//                navigateToSettings = true
+//                showAlert = true
+//                alertMessage = response.message ?? ""
+//            }else if response.successStatus == 0 {
+//
+//                showAlert = true
+//                alertMessage = response.message ?? ""
+//               // await getETCDetails(clientId: candidate.clientId)
+//            }else if response.successStatus  == 1{
+//               
+//                showAlert = true
+//                alertMessage = response.message ?? ""
+//            
+//            }else{
+//                if response.retry == 1 {
+//                    try await Task.sleep(nanoseconds: UInt64(response.sleep) * 1_000_000_000)
+//                    await logTimeApiCall(mode: mode)
+//                } else {
+//                   
+//                    showAlert = true
+//                    alertMessage = response.message ?? "Failed"
+//                    if response.message?.contains("Do you want to set this device as primary") == true {
+//                        navigateToSettings = true
+//                        showAlert = true
+//                        alertMessage = response.message ?? ""
+//                    } else {
+//                       // await getETCDetails(clientId: candidate.clientId)
+//                    }
+//                }
+//            }
         } catch {
             alertMessage = error.localizedDescription
             showAlert = true

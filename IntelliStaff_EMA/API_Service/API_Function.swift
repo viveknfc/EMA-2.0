@@ -61,6 +61,9 @@ struct APIFunction {
         return try await APICaller.shared.postRequest(urlString: url, body: params, token: "\(token)")
     }
     
-    
+    static func primaryDeviceAPICalling(params: [String: Any], token:String) async throws -> DeviceStatusResponse {
+        let url = "https://tempositionsdev.com/TemPositionsEMAAPIDEV/api/" + APIConstants.primaryDevice
+        return try await APICaller.shared.postRequest(urlString: url, body: params, token: "\(token)")
+    }
     
 }

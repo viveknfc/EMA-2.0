@@ -14,9 +14,9 @@ struct Top_TabView: View {
         
         var id: String { self.rawValue }
     }
-
-    @State private var selectedTab: Tab = .first
     
+    @State private var selectedTab: Tab = .first
+
     let candidateID: Int?
     let ssn: String?
     let clientId: Int?
@@ -79,6 +79,6 @@ struct Top_TabView: View {
     }
 }
 
-#Preview {
-    Top_TabView(candidateID: 12, ssn: "", clientId: 12, lastName: "")
-}
+//#Preview {
+//    Top_TabView(selection: $selection, candidateID: 12, ssn: "", clientId: 12, lastName: "")
+//}

@@ -95,9 +95,34 @@ struct APIService {
             
             do {
                 return try JSONDecoder().decode(T.self, from: data)
+            } catch let decodingError as DecodingError {
+                switch decodingError {
+                case .keyNotFound(let key, let context):
+                    print("❌ Key '\(key.stringValue)' not found:", context.debugDescription)
+                    print("CodingPath:", context.codingPath)
+                    
+                case .valueNotFound(let type, let context):
+                    print("❌ Value of type '\(type)' not found:", context.debugDescription)
+                    print("CodingPath:", context.codingPath)
+                    
+                case .typeMismatch(let type, let context):
+                    print("❌ Type mismatch for type '\(type)':", context.debugDescription)
+                    print("CodingPath:", context.codingPath)
+                    
+                case .dataCorrupted(let context):
+                    print("❌ Data corrupted:", context.debugDescription)
+                    print("CodingPath:", context.codingPath)
+                    
+                @unknown default:
+                    print("❌ Unknown decoding error")
+                }
+                
+                throw NetworkError.decodingFailed
             } catch {
+                print("❌ Unexpected error while decoding: \(error.localizedDescription)")
                 throw NetworkError.decodingFailed
             }
+
             
         } catch let error as URLError {
             if error.code == .timedOut {

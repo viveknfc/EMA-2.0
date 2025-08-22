@@ -4,7 +4,7 @@ import Foundation
 
 // MARK: - Root
 struct DashboardResponse: Codable {
-    let objCandidatesModel: CandidateModel
+    let objCandidatesModel: CandidateModel?
     let objMenuInformationList: [MenuItem]
     let objCandidateAssignmentsWithDetails: [CandidateAssignment]
 
@@ -13,6 +13,8 @@ struct DashboardResponse: Codable {
         case objMenuInformationList = "objMenuInformationList"
         case objCandidateAssignmentsWithDetails = "objCandidateAssignmentsWithDetails"
     }
+    
+    
 }
 
 // MARK: - CandidateModel (Fixed)
@@ -266,6 +268,8 @@ struct CandidateModel: Codable {
         case source = "source"
         case user = "User"
     }
+    
+    
 }
 
 // MARK: - MenuInformation

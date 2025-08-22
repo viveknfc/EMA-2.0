@@ -7,61 +7,61 @@ struct GetETCDetailsResponse: Codable {
     let activeOrder: Int
     let address: String?
     let candidateId: Int
-    let clientId: Int
+    let clientId: Int?
     let companyName: String?
     let currentDate: String
     let deviceId: String?
     let etcCheck: Int
-    let isLogOut: Int
-    let isLogin: Int
-    let isLunchOut: Int
-    let isMultipleLunch: Int
-    let isLunchIn: Int
+    let isLogOut: Int?
+    let isLogin: Int?
+    let isLunchOut: Int?
+    let isMultipleLunch: Int?
+    let isLunchIn: Int?
     let jobDescription: String?
-    let logOut: String
-    let logIn: String
-    let logInDate: String
-    let log_out: String
-    let login: String
+    let logOut: String?
+    let logIn: String?
+    let logInDate: String?
+    let log_out: String?
+    let login: String?
     let lstETimeClockCandOrders: [ETimeClockOrderListModel]?
     let lstEtimeclockGetClients: [LstEtimeclockGetClientsModel]?
-    let lunchIn: String
-    let lunchIn1: String
-    let lunchIn2: String
-    let lunchOut: String
-    let lunchOut1: String
-    let lunchOut2: String
-    let lunch_in: String
-    let lunch_in2: String
-    let lunch_out: String
-    let lunch_out2: String
+    let lunchIn: String?
+    let lunchIn1: String?
+    let lunchIn2: String?
+    let lunchOut: String?
+    let lunchOut1: String?
+    let lunchOut2: String?
+    let lunch_in: String?
+    let lunch_in2: String?
+    let lunch_out: String?
+    let lunch_out2: String?
     let message: String?
-    let minutesStepCount: Int
+    let minutesStepCount: Int?
     let mode: String?
-    let myProperty: Int
-    let orderId: Int
+    let myProperty: Int?
+    let orderId: Int?
     let position: String?
-    let positionCheck: Int
-    let positionID: Int
+    let positionCheck: Int?
+    let positionID: Int?
     let retry: Int
-    let showLunchButtons: Int
-    let showMealReturn: Int
+    let showLunchButtons: Int?
+    let showMealReturn: Int?
     let sleep: Int
     let status: String?
-    let successStatus: Int
-    let timeId: Int
+    let successStatus: Int?
+    let timeId: Int?
     let type: String?
-    let weekEnd: String
+    let weekEnd: String?
     let workingDate: String?
-    let enteredDate: String
-    let isETCcheck: Int
-    let latitude: String
-    let longitude: String
-    let order_id: Int
-    let showLunchPopup: Int
-    let showLunchPopupNew: Int
-    let showNoLunchButton: Int
-    let showNoLunchButtonNew: Int
+    let enteredDate: String?
+    let isETCcheck: Int?
+    let latitude: String?
+    let longitude: String?
+    let order_id: Int?
+    let showLunchPopup: Int?
+    let showLunchPopupNew: Int?
+    let showNoLunchButton: Int?
+    let showNoLunchButtonNew: Int?
 
     enum CodingKeys: String, CodingKey {
         case activeOrder = "ActiveOrder"
