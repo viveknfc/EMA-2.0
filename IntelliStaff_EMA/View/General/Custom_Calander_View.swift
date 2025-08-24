@@ -7,6 +7,9 @@
 
 import SwiftUI
 import SSDateTimePicker
+import Foundation
+import CryptoKit
+import UIKit
 
 struct Custom_Calander_View: View {
     @Binding var showDatePicker: Bool
@@ -43,4 +46,21 @@ struct Custom_Calendar_Preview_Wrapper: View {
             selectedDate: $selectedDate
         )
     }
+}
+
+func shortDeviceId() -> String {
+    // Get identifierForVendor (unique per vendor per device)
+    let idfv = UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString
+    
+    // Remove dashes
+    let raw = idfv.replacingOccurrences(of: "-", with: "")
+    
+    // Hash for consistency
+    let hash = SHA256.hash(data: raw.data(using: .utf8)!)
+    
+    // Convert to hex
+    let hex = hash.map { String(format: "%02x", $0) }.joined()
+    
+    // Take first 16 characters
+    return String(hex.prefix(16))
 }

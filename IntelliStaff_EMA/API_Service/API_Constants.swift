@@ -21,4 +21,8 @@ enum APIConstants {
     static var demoGraphicDetailsAPI = "eregisterapi/api/personalInfo/demographics"
     
     static var ETimeClockHistory = "TimesheetApi/api/WebETimeClock/GetWebEtimeClockEntries"
+    
+    static var GetETCDetails = "ETimeClock/GetETCDetails"
+    static var EtimeClockCandLogTimes = "ETimeClock/EtimeClockCandLogTimes"
+    static var primaryDevice = "Account/Updatecandidateprimarydevice"
 }

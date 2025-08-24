@@ -22,6 +22,7 @@ struct APIService {
         method: HTTPMethod = .get,
         urlParams: [String: Any]? = nil,
         parameters: [String: Any]? = nil,
+        token: String? = nil,
         headers: [String: Any]? = nil,
         timeout: TimeInterval = 30
     ) async throws -> T {
@@ -54,7 +55,8 @@ struct APIService {
         
         if !APIConstants.accessToken.isEmpty {
 //            print("the access token from api call is : \(APIConstants.accessToken)")
-            finalHeaders["Authorization"] = "Bearer \(APIConstants.accessToken)"
+//            finalHeaders["Authorization"] = "Bearer \(APIConstants.accessToken)"
+            finalHeaders["Authorization"] = "Basic \(token ?? "")"
         }
 
         
