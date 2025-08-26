@@ -28,31 +28,6 @@ class ETimeClockViewModel: NSObject, ObservableObject {
     @Published var isLogOutDone: Bool = false
     @Published var respModel: ETimeClockResponse?
     func parseGetResponse(model: GetETCDetailsResponse) {
-//           isETCCheck = model.etcCheck
-//           showLunchButtons = model.showLunchButtons != 0
-//           isMultipleLunch = model.isMultipleLunch == 1
-//           activeOrderId = model.activeOrder
-//           
-//           guard activeOrderId == 0 else {
-//               showMainLayout = true
-//               return
-//           }
-//           
-//        if let clients = model.lstEtimeclockGetClients, !clients.isEmpty {
-//               if clients.count > 1 {
-//                   // TODO: Show client selection
-//                   print("Multiple clients available. Selection required.")
-//               }
-//        } else if let orders = model.lstETimeClockCandOrders, !orders.isEmpty {
-//               showMainLayout = true
-//               if let order = orders.first {
-//                   isETCCheck = order.isETCcheck ?? 0
-//                   activeOrderId = order.orderId ?? 0
-//                   // TODO: Handle multiple/single lunch based on order
-//               }
-//           } else {
-//               showMainLayout = false
-//               noDataMessage = model.message ?? ""
         
         getLogTimeRequest?.etcCheck = model.etcCheck
         getLogTimeRequest?.showLunchButtons = model.showLunchButtons
@@ -89,8 +64,6 @@ class ETimeClockViewModel: NSObject, ObservableObject {
             print("User ID not found or not an Int")
             return
         }
-        
-       // guard let candidate = userId else { return }
         
         let currentDate = Date()
         let dateFormatter = DateFormatter()

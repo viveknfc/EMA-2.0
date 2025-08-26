@@ -66,9 +66,6 @@ struct History_View: View {
                     // MARK: - Scrollable History Cards
                     ScrollView(showsIndicators: false) {
                         VStack(spacing: 16) {
-//                            ForEach(0..<5) { _ in
-//                                History_Card()
-//                            }
                             ForEach(viewModel.historyData) { entry in History_Card(entry: entry)
                                 
                             }

@@ -37,7 +37,7 @@ struct e_TimeClock: View {
         Group {
             if viewModel.navigateToSettings {
               
-                SettingsScreen()   // 👉 directly show SettingsScreen
+//                SettingsScreen()   // 👉 directly show SettingsScreen
                 
                 
             } else {

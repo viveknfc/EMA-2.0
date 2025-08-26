@@ -16,6 +16,16 @@ enum HTTPMethod: String {
 
 struct EmptyResponse: Decodable {}
 
+struct ErrorResponse: Decodable {
+    let message: String
+}
+
+enum AuthType {
+    case bearer
+    case basic
+    case none
+}
+
 struct APIService {
     static func request<T: Decodable>(
         url: String,
@@ -24,6 +34,7 @@ struct APIService {
         parameters: [String: Any]? = nil,
         token: String? = nil,
         headers: [String: Any]? = nil,
+        authType: AuthType = .bearer,
         timeout: TimeInterval = 30
     ) async throws -> T {
         
@@ -53,12 +64,21 @@ struct APIService {
 
         var finalHeaders = headers ?? [:]
         
-        if !APIConstants.accessToken.isEmpty {
-//            print("the access token from api call is : \(APIConstants.accessToken)")
-//            finalHeaders["Authorization"] = "Bearer \(APIConstants.accessToken)"
-            finalHeaders["Authorization"] = "Basic \(token ?? "")"
-        }
+        switch authType {
+        case .bearer:
+            let accessToken = token ?? APIConstants.accessToken
+            if !accessToken.isEmpty {
+                finalHeaders["Authorization"] = "Bearer \(accessToken)"
+            }
 
+        case .basic:
+            if let basicToken = token, !basicToken.isEmpty {
+                finalHeaders["Authorization"] = "Basic \(basicToken)"
+            }
+
+        case .none:
+            break
+        }
         
         finalHeaders["Content-Type"] = "application/json"
         for (key, value) in finalHeaders {
@@ -69,14 +89,19 @@ struct APIService {
 
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
-
-            guard response is HTTPURLResponse else {
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
                 throw NetworkError.noData
             }
 
-            guard let httpResponse = response as? HTTPURLResponse,
-                  200..<300 ~= httpResponse.statusCode else {
-                throw NetworkError.serverError(statusCode: (response as? HTTPURLResponse)?.statusCode ?? -1)
+            // ✅ Handle non-200 responses
+            guard (200..<300).contains(httpResponse.statusCode) else {
+                if !data.isEmpty,
+                   let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
+                    print("the error message is ", errorResponse.message)
+                    throw NetworkError.serverError(statusCode: httpResponse.statusCode, message: errorResponse.message)
+                }
+                throw NetworkError.serverError(statusCode: httpResponse.statusCode)
             }
             
             if data.isEmpty {
@@ -91,9 +116,9 @@ struct APIService {
                 throw NetworkError.noData
             }
             
-            if let rawJSON = String(data: data, encoding: .utf8) {
-                print("🟡 Raw JSON Response: \(rawJSON)")
-            }
+//            if let rawJSON = String(data: data, encoding: .utf8) {
+//                print("🟡 Raw JSON Response: \(rawJSON)")
+//            }
 
             do {
                 return try JSONDecoder().decode(T.self, from: data)

@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import SwiftUI
 
-struct ProfileItem: Identifiable, Decodable {
-    let id: Int
-    let title: String
-    let icon: String
+struct ProfileModel: Codable, Identifiable {
+    var id = UUID()
+    var title: String
+    var imageName: String
 }

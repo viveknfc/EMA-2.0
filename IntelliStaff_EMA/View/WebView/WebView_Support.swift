@@ -92,7 +92,7 @@ struct WebView: UIViewRepresentable {
              localStorage.setItem("currentUserEWA", JSON.stringify(candidateData1));
             
              const candidateData2 = JSON.parse("\(escapedForJS2)");
-             localStorage.setItem("loggedinInfo", JSON.stringify(candidateData2));
+             sessionStorage.setItem("loggedinInfo", JSON.stringify(candidateData2));
 
              localStorage.setItem("accessToken", candidateData1.accessToken);
 

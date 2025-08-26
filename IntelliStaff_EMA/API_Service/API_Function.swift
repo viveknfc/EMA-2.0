@@ -51,19 +51,25 @@ struct APIFunction {
         return try await APIService.request(url: url, method: .post, parameters: params)
     }
     
+    //MARK: - E-Time clock API
+    
     static func eTimeClockETCDetailsAPICalling(params: [String: Any], token:String) async throws -> GetETCDetailsResponse {
-        let url = "https://tempositionsdev.com/TemPositionsEMAAPIDEV/api/" + APIConstants.GetETCDetails
-        return try await APIService.request(url: url, method: .post, parameters: params, token: token)
+        let url = APIConstants.baseURL + APIConstants.GetETCDetails
+        return try await APIService.request(url: url, method: .post, parameters: params, token: token, authType: .basic)
     }
+    
+    //MARK: - E-Time clock submit API
     
     static func eTimeClockCandLogAPICalling(params: [String: Any], token:String) async throws -> ETimeClockResponse {
-        let url = "https://tempositionsdev.com/TemPositionsEMAAPIDEV/api/" + APIConstants.EtimeClockCandLogTimes
-        return try await APIService.request(url: url, method: .post, parameters: params, token: token)
+        let url = APIConstants.baseURL + APIConstants.EtimeClockCandLogTimes
+        return try await APIService.request(url: url, method: .post, parameters: params, token: token, authType: .basic)
     }
     
+    //MARK: - Primary device API
+    
     static func primaryDeviceAPICalling(params: [String: Any], token:String) async throws -> DeviceStatusResponse {
-        let url = "https://tempositionsdev.com/TemPositionsEMAAPIDEV/api/" + APIConstants.primaryDevice
-        return try await APIService.request(url: url, method: .post, parameters: params, token: token)
+        let url = APIConstants.baseURL + APIConstants.primaryDevice
+        return try await APIService.request(url: url, method: .post, parameters: params, token: token, authType: .basic)
     }
 
     

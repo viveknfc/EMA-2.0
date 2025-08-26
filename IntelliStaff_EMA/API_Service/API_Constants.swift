@@ -22,7 +22,7 @@ enum APIConstants {
     
     static var ETimeClockHistory = "TimesheetApi/api/WebETimeClock/GetWebEtimeClockEntries"
     
-    static var GetETCDetails = "ETimeClock/GetETCDetails"
-    static var EtimeClockCandLogTimes = "ETimeClock/EtimeClockCandLogTimes"
-    static var primaryDevice = "Account/Updatecandidateprimarydevice"
+    static var GetETCDetails = "TemPositionsEMAAPIDEV/api/ETimeClock/GetETCDetails"
+    static var EtimeClockCandLogTimes = "TemPositionsEMAAPIDEV/api/ETimeClock/EtimeClockCandLogTimes"
+    static var primaryDevice = "TemPositionsEMAAPIDEV/api/Account/Updatecandidateprimarydevice"
 }

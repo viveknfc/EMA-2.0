@@ -1,7 +1,5 @@
 import Foundation
 
-
-
 // MARK: - Root
 struct DashboardResponse: Codable {
     let objCandidatesModel: CandidateModel

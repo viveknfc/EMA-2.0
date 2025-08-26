@@ -14,6 +14,7 @@ enum AppRoute: Hashable {
     case newPassword
     case dashboard
     case webView(apiKey: String)
+    case settings
 }
 
 // AppRoute+ViewFactory.swift
@@ -33,6 +34,8 @@ extension AppRoute {
             CurveConcavePreview(path: path, dashboardViewModel: dashboardViewModel)
         case .webView(let apiKey):
             WebView_Screen(urlKey: apiKey, viewModel: dashboardViewModel)
+        case .settings:
+            SettingsScreen(path: path)
         }
     }
 }

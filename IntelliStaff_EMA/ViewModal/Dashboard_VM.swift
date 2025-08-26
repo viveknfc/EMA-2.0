@@ -46,6 +46,11 @@ class DashboardViewModel {
                 print("candiate api finihsed calling")
                 
                 self.dashboardData = result
+                
+                if let firstName = result.objCandidatesModel.firstName {
+                    UserDefaults.standard.set(firstName, forKey: "firstName")
+                }
+                
                 self.menuGroups = self.groupMenuItems(result.objMenuInformationList)
                 self.dashboardMenuItems = self.menuGroups.map { group in
                     
