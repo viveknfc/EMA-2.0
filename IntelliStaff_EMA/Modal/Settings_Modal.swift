@@ -26,25 +26,3 @@ struct DeviceStatusResponse: Codable {
         case messageStatus = "MessageStatus"
     }
 }
-
-
-struct LogTimeRequest: Codable {
-    let CandidateId: Int
-    let OrderId: Int
-    let entereddate: String
-    let Mode: String
-    var Retry: Int
-    let DeviceId: String
-    var Log_in: String
-    var Lunch_out: String
-    var Lunch_in: String
-    var Log_out: String
-    let Lunch_out2: String
-    let Lunch_in2: String
-    var etcCheck: Int
-    let latitude: Double?
-    let longitude: Double?
-    var showLunchButtons: Int?
-    var isMultipleLunch: Int?
-    var activeOrderId: Int
-}

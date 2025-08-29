@@ -121,6 +121,13 @@ struct History_View: View {
                     }
                     .zIndex(10)
                 }
+                
+                if viewModel.isLoading {
+                    Color.black.opacity(0.5)
+                        .ignoresSafeArea()
+                    TriangleLoader()
+                }
+                
             }
             .onAppear {
                 // Only require candidateID, ssn, and lastName — clientId can be nil

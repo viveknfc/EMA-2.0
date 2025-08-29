@@ -12,6 +12,7 @@ struct WebView_Screen: View {
     var urlKey: String
     @State private var isLoading = true
     @Environment(\.dismiss) private var dismiss
+    @State private var pageTitle = "Loading..."
     
     @Bindable var viewModel: DashboardViewModel
     let payload = buildWebViewPayload()
@@ -37,7 +38,9 @@ struct WebView_Screen: View {
         ZStack {
             WebView(url: fullURL, isLoading: $isLoading, candidateData: viewModel.escapedCandidateJSONString ?? "", candidateInfo: viewModel.escapedDemographicsJSONString ?? "",currentUserJson: payload.currentUserJson, keyGuard: payload.keyGuard,     keyName: payload.keyName,
                 accessToken: payload.accessToken,
-                isHeadless: true)
+                isHeadless: true, onTitleChange: { title in
+                pageTitle = title
+            })
             
             if isLoading {
                 Color.black.opacity(0.5)
@@ -48,7 +51,7 @@ struct WebView_Screen: View {
         .onAppear {
             print("Full URL: \(fullURL)")
         }
-        .navigationTitle("Tempositions")
+        .navigationTitle(pageTitle)
         .navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

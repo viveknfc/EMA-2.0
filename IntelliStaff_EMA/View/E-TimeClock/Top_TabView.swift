@@ -16,6 +16,7 @@ struct Top_TabView: View {
     }
 
     @State private var selectedTab: Tab = .first
+    @State private var path: [AppRoute] = []
     
     let candidateID: Int?
     let ssn: String?
@@ -61,7 +62,7 @@ struct Top_TabView: View {
             ZStack {
                 switch selectedTab {
                 case .first:
-                    e_TimeClock(candidateID: candidateID, ssn: ssn, clientId: clientId, lastName: lastName)
+                    e_TimeClock(path: $path, candidateID: candidateID, ssn: ssn, clientId: clientId, lastName: lastName)
                 case .second:
                     History_View(candidateID: candidateID, ssn: ssn, clientId: clientId, lastName: lastName)
                 }

@@ -4,7 +4,7 @@ import Foundation
 struct DashboardResponse: Codable {
     let objCandidatesModel: CandidateModel
     let objMenuInformationList: [MenuItem]
-    let objCandidateAssignmentsWithDetails: [CandidateAssignment]
+    let objCandidateAssignmentsWithDetails: [CandidateAssignment]?
 
     enum CodingKeys: String, CodingKey {
         case objCandidatesModel = "objCandidatesModel"
@@ -13,7 +13,8 @@ struct DashboardResponse: Codable {
     }
 }
 
-// MARK: - CandidateModel (Fixed)
+// MARK: - CandidateModel
+
 struct CandidateModel: Codable {
     let candidateID: Int?
     let name: String?
@@ -58,7 +59,7 @@ struct CandidateModel: Codable {
     let status: String?
     let subStatus: String?
     let onBoardingStaus: String?
-    let isPermCandidate: Bool?
+    let isPermCandidate: Int?
     let candidateTypeId: Int?
     let sourceId: Int?
     let personalRepId: Int?
@@ -73,41 +74,41 @@ struct CandidateModel: Codable {
     let recName: String?
     let perRep: String?
     let appSubmitDate: String?
-    let referalCandidateId: Int?          // Changed from String? to Int?
+    let referalCandidateId: Int?
     let referralCandidateName: String?
     let message: String?
-    let webUserId: Int?                   // Changed from String? to Int?
+    let webUserId: Int?
     let actCreationDate: String?
     let passwdRecovered: String?
     let maxPay: Double?
     let posSeeking: String?
-    let unempl: String?
+    let unempl: Int?
     let unemplasof: String?
-    let recruiterId: Int?                 // Changed from String? to Int?
+    let recruiterId: Int?
     let scrSignatureDate: String?
-    let scrSubmittalDate: String?         // Fixed CodingKey below
+    let scrSubmittalDate: String?
     let siteClearanceEligibleDate: String?
     let sexualHarassmentTrainingCompletionDate: String?
     let isIndependentContractor: Bool?
     let educationLevel: String?
     let isVendorCandidate: Bool?
-    let clientId: Int?                    // Changed from String? to Int?
+    let clientId: Int?
     let vendorReference: String?
-    let contactId: Int?                   // Changed from String? to Int?
+    let contactId: Int?
     let canScrId: String?
     let rcvIvr: String?
     let creAutoEmails: String?
     let sendTextMsgs: Bool?
     let pjbContactMethod: Int?
-    let sfHcWaiver: String?
-    let hot: String?
+    let sfHcWaiver: Int?
+    let hot: Int?
     let needUpdated: Int?
     let lastTimeslipWE: String?
     let fromast: String?
     let netProfit: Double?
-    let i9Verified: String?
-    let healthSup: String?
-    let inEmpowermentZone: String?
+    let i9Verified: Int?
+    let healthSup: Int?
+    let inEmpowermentZone: Int?
     let noPaystub: Int?
     let directDep: Int?
     let independentContractor: Bool?
@@ -117,17 +118,17 @@ struct CandidateModel: Codable {
     let locationTracking: Int?
     let i9DocumentsUploaded: Int?
     let overAllReferencePosition: Int?
-    let applicantId: String?
+    let applicantId: Int?
     let i9Dob: String?
     let agentId: String?
     let agentName: String?
-    let onboardingSubStatusId: Int?       // Changed from String? to Int?
+    let onboardingSubStatusId: Int?
     let numberOfOrders: Int?
     let paymentType: String?
     let emergencyContactPhone: String?
     let emergencyContactName: String?
     let appType: String?
-    let locationId: Int?                  // Changed from String? to Int?
+    let locationId: Int?
     let password: String?
     let isClinical: Bool?
     let employeeRegistrationList: String?
@@ -210,7 +211,7 @@ struct CandidateModel: Codable {
         case unemplasof = "Unemplasof"
         case recruiterId = "RecruiterId"
         case scrSignatureDate = "ScrSignatureDate"
-        case scrSubmittalDate = "SCRsubmittaldate"  // Fixed: exact match to JSON
+        case scrSubmittalDate = "SCRsubmittaldate"
         case siteClearanceEligibleDate = "SiteClearanceEligibleDate"
         case sexualHarassmentTrainingCompletionDate = "SexualHarassmentTrainingCompletionDate"
         case isIndependentContractor = "IsIndependentContractor"
@@ -290,6 +291,30 @@ struct MenuItem: Codable {
 }
 
 // MARK: - CandidateAssignment
+
 struct CandidateAssignment: Codable {
-    // Your fields for objCandidateAssignmentsWithDetails (empty in example)
+    let orderWeekdayDetails: String?
+    let orderId: Int?
+    let startDate: String?
+    let endDate: String?
+    let position: String?
+    let minPay: Double?
+    let minbill: Double?
+    let shifts: Int?
+    let compName: String?
+    let poNumber: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case orderWeekdayDetails = "OrderWeekdayDetails"
+        case orderId = "orderId"
+        case startDate = "startDate"
+        case endDate = "endDate"
+        case position = "position"
+        case minPay = "minPay"
+        case minbill = "minbill"
+        case shifts = "shifts"
+        case compName = "Comp_Name"
+        case poNumber = "PO_Number"
+    }
 }
+

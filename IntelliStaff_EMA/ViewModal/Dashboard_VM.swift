@@ -82,6 +82,8 @@ class DashboardViewModel {
         do {
             let result = try await APIFunction.candidateIdAPICalling(params: params)
             
+//            print("the candidate id result is ", result)
+            
             self.candidateID = result.candidateID
             self.ssn = result.ssn
             self.clientId = result.clientId
@@ -94,7 +96,6 @@ class DashboardViewModel {
                 let doubleEncoded = "\"\(jsonString)\"" // 👈 wraps JSON string in quotes
                 let escapedCandidateJSON = escapeForJavaScript(doubleEncoded)
                 self.escapedCandidateJSONString = escapedCandidateJSON
-
             }
         } catch {
             self.errorMessage = error.localizedDescription
@@ -109,21 +110,21 @@ class DashboardViewModel {
         ]
         do {
             let result = try await APIFunction.demographicAPICalling(params: params)
-//            print("the result for demographic API is ", result)
+            print("the result for demographic API is ", result)
             let accessToken = APIConstants.accessToken
             
             let subset = LoggedInInfo(
                 candidateId: result.candidateId,
                 accessToken: accessToken,
                 applicantId: result.candidateId,
-                companyEmail: result.companyEmail,
-                division: result.divisionId,
-                divisionName: result.divisionName,
-                email: result.email,
-                firstName: result.firstName,
+                companyEmail: result.companyEmail ?? "",
+                division: result.divisionId ?? 0,
+                divisionName: result.divisionName ?? "",
+                email: result.email ?? "",
+                firstName: result.firstName ?? "",
                 id: result.candidateId,
-                lastName: result.lastName,
-                skills: result.skills
+                lastName: result.lastName ?? "",
+                skills: result.skills ?? []
             )
             
             

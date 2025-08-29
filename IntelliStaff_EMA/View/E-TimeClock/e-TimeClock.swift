@@ -27,138 +27,104 @@ struct ETimeClockButtonStyle: ButtonStyle {
 }
 
 struct e_TimeClock: View {
-    @StateObject private var viewModel = ETimeClockViewModel()
+    
+    @State private var viewModel = ETimeClockViewModel()
+    @Binding var path: [AppRoute]
+    
     let candidateID: Int?
     let ssn: String?
     let clientId: Int?
     let lastName: String?
+    
    
     var body: some View {
-        Group {
-            if viewModel.navigateToSettings {
-              
-//                SettingsScreen()   // 👉 directly show SettingsScreen
-                
-                
-            } else {
-                if viewModel.showMainLayout {
-                    VStack {
-                        VStack(spacing: 30) {
-                            Rounded_Rectangle_Button(title: "Clock In") {
-                                Task { await viewModel.logTimeApiCall(mode: "login") }
-                            }
-                            .buttonStyle(ETimeClockButtonStyle(isDone: viewModel.isLoginDone))
-                            .disabled(viewModel.isLoginDone)
-                            
-                            Rounded_Rectangle_Button(title: "Meal Out") {
-                                Task { await viewModel.logTimeApiCall(mode: "lunchout") }
-                            }
-                            .buttonStyle(ETimeClockButtonStyle(isDone: viewModel.isLunchOutDone))
-                            .disabled(viewModel.isLunchOutDone)
-                            
-                            Rounded_Rectangle_Button(title: "Meal Return") {
-                                Task { await viewModel.logTimeApiCall(mode: "lunchin") }
-                            }
-                            .buttonStyle(ETimeClockButtonStyle(isDone: viewModel.isLunchInDone))
-                            .disabled(viewModel.isLunchInDone)
-                            
-                            Rounded_Rectangle_Button(title: "Clock Out") {
-                                Task { await viewModel.logTimeApiCall(mode: "logout") }
-                            }
-                            .buttonStyle(ETimeClockButtonStyle(isDone: viewModel.isLogOutDone))
-                            .disabled(viewModel.isLogOutDone)
-                        }
-                        .padding(.top, 40)
-                        .padding([.leading, .trailing], 50)
-                        
-                        Spacer()
+        
+        ZStack {
+            if viewModel.showMainLayout {
+                VStack(spacing: 30) {
+                    Rounded_Rectangle_Button(title: "Clock In") {
+                        Task { await viewModel.logTimeApiCall(mode: "login") }
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                } else {
-                    Text(viewModel.noDataMessage)
+                    .buttonStyle(ETimeClockButtonStyle(isDone: viewModel.isLoginDone))
+                    .disabled(viewModel.isLoginDone)
+                    
+                    Rounded_Rectangle_Button(title: "Meal Out") {
+                        Task { await viewModel.logTimeApiCall(mode: "lunchout") }
+                    }
+                    .buttonStyle(ETimeClockButtonStyle(isDone: viewModel.isLunchOutDone))
+                    .disabled(viewModel.isLunchOutDone)
+                    
+                    Rounded_Rectangle_Button(title: "Meal Return") {
+                        Task { await viewModel.logTimeApiCall(mode: "lunchin") }
+                    }
+                    .buttonStyle(ETimeClockButtonStyle(isDone: viewModel.isLunchInDone))
+                    .disabled(viewModel.isLunchInDone)
+                    
+                    Rounded_Rectangle_Button(title: "Clock Out") {
+                        Task { await viewModel.logTimeApiCall(mode: "logout") }
+                    }
+                    .buttonStyle(ETimeClockButtonStyle(isDone: viewModel.isLogOutDone))
+                    .disabled(viewModel.isLogOutDone)
                 }
+                .padding(.top, 40)
+                .padding([.leading, .trailing], 50)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            } else {
+                Text(viewModel.noDataMessage)
+                    .multilineTextAlignment(.center)
+                    .padding()
+            }
+            
+            if viewModel.isLoading {
+                Color.black.opacity(0.5)
+                    .ignoresSafeArea()
+                TriangleLoader()
             }
         }
-        // 👇 attach alert to the Group
-        //.alert(isPresented: $viewModel.showAlert) {
-//            Alert(
-//                title: Text("CMA 2.0"),
-//                message: Text(viewModel.alertMessage),
-//                dismissButton: .default(Text("OK")) {
-//                    if viewModel.alertMessage.contains("Do you want to set this device as primary") {
-//                        viewModel.navigateToSettings = true
-//                    } else {
-//                        viewModel.navigateToSettings = false
-//                    }
-//                }
-//            )
-//        if viewModel.showAlert{
-//            AlertView(
-//                title: "CMA 2.0",
-//                message: viewModel.alertMessage,
-//                primaryButton: AlertButtonConfig(title: "OK") {
-//                    viewModel.showAlert = false
-//                },
-//                dismiss: {
-//                    viewModel.showAlert = false
-//                },
-//            )
-//        }
-//        .onReceive(viewModel.$logTimeResponse.compactMap { $0 }) { response in
-//            viewModel.retryCount = response.retry ?? 0
-//                  if response.successStatus == 1 {
-//                      viewModel.alertMessage = response.message ?? ""
-//                      viewModel.showAlert = true
-//                  } else {
-//                      if response.retry == 1 {
-//                          // Retry after Sleep seconds
-//                          DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(response.sleep)) {
-//                              viewModel.logTimeApiCall(mode: response.mode ?? "")
-//                          }
-//                      } else {
-//                          viewModel.alertMessage = response.message ?? ""
-//                          viewModel.showAlert = true
-//                      }
-//                  }
-//              }
-       
         .onAppear {
-            Task {
-                await viewModel.getETCDetails(clientId: 0)
-            }
+            Task { await viewModel.getETCDetails(clientId: 0) }
         }
         
-        
-        
-        if viewModel.showAlert{
+        // ✅ General alert
+        if viewModel.showAlert {
             AlertView(
-                title: "CMA 2.0",
+                title: "E-Time Clock",
                 message: viewModel.alertMessage,
                 primaryButton: AlertButtonConfig(title: "OK") {
                     viewModel.showAlert = false
                 },
                 dismiss: {
                     viewModel.showAlert = false
-                },
+                }
             )
         }
-        if viewModel.navigateToSettings{
+        // ✅ Primary device alert
+        if viewModel.showPrimaryAlert {
             AlertView(
-                title: "CMA 2.0",
+                title: "Primary Device",
                 message: viewModel.alertMessage,
-                primaryButton:AlertButtonConfig(title: "OK") {
-                    if viewModel.alertMessage.contains("Do you want to set this device as primary") {
-                        viewModel.navigateToSettings = true
-                    } else {
-                        viewModel.navigateToSettings = false
-                    }
-                }, dismiss: {
-                    
+                primaryButton: AlertButtonConfig(title: "OK") {
+                    viewModel.showPrimaryAlert = false
+                    path.append(.settings)  // 👈 navigate to settings
+                },
+                dismiss: {
+                    viewModel.showPrimaryAlert = false
                 }
             )
         }
     }
 }
-#Preview {
-    e_TimeClock(candidateID: 12, ssn: "", clientId: 12, lastName: "")
+
+struct ETimeClock_Previews: PreviewProvider {
+    @State static var path: [AppRoute] = []   // Mock navigation path
+
+    static var previews: some View {
+        e_TimeClock(
+            path: $path, candidateID: 12345,
+            ssn: "987-65-4321",
+            clientId: 6789,
+            lastName: "Doe"
+        )
+    }
 }
+

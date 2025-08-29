@@ -22,5 +22,21 @@ struct DateTimeFormatter {
         formatter.dateFormat = "hh:mm a"
         return formatter.string(from: date)
     }
+    
+    static func serverDate(_ date: Date = Date()) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy"
+        return formatter.string(from: date)
+    }
+
+    static func serverDateTime(_ date: Date = Date()) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy hh:mm a"
+        return formatter.string(from: date)
+    }
+    
+    static func nowForServer() -> String {
+        ISO8601DateFormatter().string(from: Date())
+    }
 }
 

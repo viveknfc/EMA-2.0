@@ -5,6 +5,8 @@
 //  Created by NFC Solutions on 28/07/25.
 //
 
+import Foundation
+
 struct CandidateIdModel: Codable {
     let candidateID: Int?
     let name, lastName, middleName, firstName: String?
@@ -19,11 +21,10 @@ struct CandidateIdModel: Codable {
     let createdOn, modifiedOn: String?
     let apt: String?
     let dnrChecked, rep: Int?
-    let fax : String?
-    let statusId, onBoardingStausId, subStatusId: Int?
-    let userId: Int?
+    let fax: String?
+    let statusId, onBoardingStausId, subStatusId, userId: Int?
     let dnrDescription, status, subStatus, onBoardingStaus: String?
-    let isPermCandidate: Bool?
+    let isPermCandidate: Int?
     let candidateTypeId, sourceId, personalRepId: Int?
     let notes, fileName, highSchool, college: String?
     let postCollege1, postCollege2, businessOrOther: String?
@@ -34,53 +35,42 @@ struct CandidateIdModel: Codable {
     let actCreationDate, passwdRecovered: String?
     let maxPay: Double?
     let posSeeking: String?
-    let unempl: Bool?
+    let unempl: Int?
     let unemplasof: String?
     let recruiterId: Int?
     let scrSignatureDate, scrsubmittaldate, siteClearanceEligibleDate: String?
     let sexualHarassmentTrainingCompletionDate: String?
-    let isIndependentContractor: Bool?
+    let isIndependentContractor: Int?
     let educationLevel: String?
-    let isVendorCandidate: Bool?
-    let clientId: Int?
+    let isVendorCandidate: Int?
+    let clientId, contactId, canScrId: Int?
     let vendorReference: String?
-    let contactId: Int?
-    let canScrId: Int?
-    let rcvIvr: Bool?
-    let creAutoEmails: Bool?
-    let sendTextMsgs: Bool?
+    let rcvIvr, creAutoEmails, sendTextMsgs: Bool?
     let pjbContactMethod: Int?
-    let sfHcWaiver: String?
-    let hot: Bool?
+    let sfHcWaiver: Int?
+    let hot: Int?
     let needUpdated: Int?
     let lastTimeslipWE, fromast: String?
     let netProfit: Double?
-    let i9Verified, healthSup: String?
-    let inEmpowermentZone: Bool?
-    let noPaystub, directDep: Int?
+    let i9Verified, healthSup: Int?
+    let inEmpowermentZone: Int?
+    let noPaystub, directDep, isPhotoUploaded, pushnotifications, locationtracking, i9DocumentsUploaded, overAllReferencePosition: Int?
     let independentContractor: Bool?
     let consumerReport: String?
-    let isPhotoUploaded, pushnotifications, locationtracking, i9DocumentsUploaded: Int?
-    let overAllReferencePosition: Int?
     let applicantId: Int?
     let i9Dob: String?
-    let agentId: Int?
+    let agentId: String?
     let agentName: String?
-    let onboardingSubStatusId: Int?
-    let numberofOrders: Int?
+    let onboardingSubStatusId, numberofOrders: Int?
     let paymentType, emergencyContactPhone, emergencyContactName: String?
     let appType: String?
-    let locationId: Int?
+    let locationId, createdBy, queueFileId, isOnboardEmail: Int?
     let password: String?
     let isClinical: Bool?
     let employeeRegistrationList: String?
     let payRate: Double?
-    let createdBy, queueFileId: Int?
-    let applicantResumeId: String?
-    let source: String?
-    let isOnboardEmail: Int?
-    let user: String?
-
+    let applicantResumeId, source, user: String?
+    
     enum CodingKeys: String, CodingKey {
         case candidateID = "CandidateID"
         case name = "Name"
@@ -115,8 +105,8 @@ struct CandidateIdModel: Codable {
         case modifiedOn = "ModifiedOn"
         case apt = "Apt"
         case dnrChecked = "DnrChecked"
-        case fax = "Fax"
         case rep = "Rep"
+        case fax = "Fax"
         case statusId = "StatusId"
         case onBoardingStausId = "OnBoardingStausId"
         case subStatusId = "SubStatusId"
@@ -152,16 +142,16 @@ struct CandidateIdModel: Codable {
         case unemplasof = "Unemplasof"
         case recruiterId = "RecruiterId"
         case scrSignatureDate = "ScrSignatureDate"
-        case scrsubmittaldate = "SCRsubmittaldate"
+        case scrsubmittaldate = "Scrsubmittaldate"
         case siteClearanceEligibleDate = "SiteClearanceEligibleDate"
         case sexualHarassmentTrainingCompletionDate = "SexualHarassmentTrainingCompletionDate"
         case isIndependentContractor = "IsIndependentContractor"
         case educationLevel = "EducationLevel"
         case isVendorCandidate = "IsVendorCandidate"
         case clientId = "ClientId"
-        case vendorReference = "VendorReference"
         case contactId = "ContactId"
         case canScrId = "CanScrId"
+        case vendorReference = "VendorReference"
         case rcvIvr = "RcvIvr"
         case creAutoEmails = "CreAutoEmails"
         case sendTextMsgs = "SendTextMsgs"
@@ -177,13 +167,13 @@ struct CandidateIdModel: Codable {
         case inEmpowermentZone = "InEmpowermentZone"
         case noPaystub = "NoPaystub"
         case directDep = "DirectDep"
-        case independentContractor = "IndependentContractor"
-        case consumerReport = "ConsumerReport"
         case isPhotoUploaded = "IsPhotoUploaded"
         case pushnotifications = "Pushnotifications"
         case locationtracking = "Locationtracking"
         case i9DocumentsUploaded = "I9DocumentsUploaded"
         case overAllReferencePosition = "OverAllReferencePosition"
+        case independentContractor = "IndependentContractor"
+        case consumerReport = "ConsumerReport"
         case applicantId = "ApplicantId"
         case i9Dob = "I9Dob"
         case agentId = "AgentId"
@@ -195,17 +185,18 @@ struct CandidateIdModel: Codable {
         case emergencyContactName = "EmergencyContactName"
         case appType = "AppType"
         case locationId = "LocationId"
+        case createdBy = "CreatedBy"
+        case queueFileId = "QueueFileId"
+        case isOnboardEmail = "IsOnboardEmail"
         case password = "Password"
         case isClinical = "IsClinical"
         case employeeRegistrationList = "EmployeeRegistrationList"
         case payRate = "PayRate"
-        case createdBy = "CreatedBy"
-        case queueFileId = "QueueFileId"
         case applicantResumeId = "ApplicantResumeId"
-        case source = "source"
-        case isOnboardEmail = "IsOnboardEmail"
+        case source = "Source"
         case user = "User"
     }
 }
+
 
 

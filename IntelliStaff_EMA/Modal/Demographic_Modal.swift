@@ -7,30 +7,40 @@
 
 struct CandidateInfo: Codable {
     let candidateId: Int
-    let firstName: String
-    let middleName: String
-    let lastName: String
-    let apartmentNumber: String
-    let city: String
-    let state: String
-    let zipCode: String
-    let email: String
-    let ssn: String
-    let dob: String?                   // nullable
-    let permanentHomeAddress: String
-    let divisionId: Int
-    let skills: [Int]
-    let divisionName: String
-    let companyEmail: String
-    let empSince: String?             // nullable
-    let userdetails: UserDetails
-    let maskedDOB: String
+    let firstName: String?
+    let middleName: String?
+    let lastName: String?
+    let apartmentNumber: String?
+    let city: String?
+    let state: String?
+    let zipCode: String?
+    let email: String?
+    let ssn: String?
+    let dob: String?
+    let permanentHomeAddress: String?
+    let divisionId: Int?
+    let skills: [Int]?
+    let divisionName: String?
+    let companyEmail: String?
+    let empSince: String?
+    let userdetails: UserDetails?
+    let candidateType: Int?
+    let maskedDOB: String?
+
+    enum CodingKeys: String, CodingKey {
+        case candidateId, firstName, middleName, lastName,
+             apartmentNumber, city, state, zipCode, email, ssn,
+             dob, permanentHomeAddress, divisionId, skills,
+             divisionName, companyEmail, empSince, userdetails,
+             candidateType, maskedDOB
+    }
 }
 
 struct UserDetails: Codable {
-    let name: String
-    let phone: String
+    let name: String?
+    let phone: String?
 }
+
 
 struct LoggedInInfo: Codable {
     let candidateId: Int

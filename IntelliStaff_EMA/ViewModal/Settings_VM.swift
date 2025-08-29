@@ -36,6 +36,8 @@ class SettingsViewModel {
             "Status": isOn ? 1 : 0
         ]
         
+        print("primary device param \(params)")
+        
         Task {
             do {
                 deviceData = try await APIFunction.primaryDeviceAPICalling(params: params, token: "\(userId):")
