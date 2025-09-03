@@ -16,7 +16,7 @@ struct Top_TabView: View {
     }
 
     @State private var selectedTab: Tab = .first
-    @State private var path: [AppRoute] = []
+    @Binding var path: [AppRoute]
     
     let candidateID: Int?
     let ssn: String?
@@ -81,5 +81,5 @@ struct Top_TabView: View {
 }
 
 #Preview {
-    Top_TabView(candidateID: 12, ssn: "", clientId: 12, lastName: "")
+    Top_TabView(path: .constant([]), candidateID: 12, ssn: "", clientId: 12, lastName: "")
 }

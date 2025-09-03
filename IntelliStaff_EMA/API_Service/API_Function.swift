@@ -5,6 +5,8 @@
 //  Created by Vivek Lakshmanan on 16/07/25.
 //
 
+import UserNotifications
+
 struct APIFunction {
     
     //MARK: - serviceAuthAPICalling
@@ -46,31 +48,72 @@ struct APIFunction {
     
     //MARK: - E-Time clock History API
     
-    static func eTimeClockHistoryAPICalling(params: [String: Any]) async throws -> [ETimeclock_History_Modal] {
+    static func eTimeClockHistoryAPICalling(params: [String: Any]) async throws -> [ETimeclockHistoryResponse] {
         let url = APIConstants.baseURL + APIConstants.ETimeClockHistory
         return try await APIService.request(url: url, method: .post, parameters: params)
     }
     
     //MARK: - E-Time clock API
     
-    static func eTimeClockETCDetailsAPICalling(params: [String: Any], token:String) async throws -> GetETCDetailsResponse {
+    static func eTimeClockETCDetailsAPICalling(params: [String: Any]) async throws -> GetETCDetailsResponse {
         let url = APIConstants.baseURL + APIConstants.GetETCDetails
-        return try await APIService.request(url: url, method: .post, parameters: params, token: token, authType: .basic)
+        return try await APIService.request(url: url, method: .post, parameters: params)
     }
     
     //MARK: - E-Time clock submit API
     
-    static func eTimeClockCandLogAPICalling(params: [String: Any], token:String) async throws -> ETimeClockResponse {
+    static func eTimeClockCandLogAPICalling(params: [String: Any]) async throws -> ETimeClockResponse {
         let url = APIConstants.baseURL + APIConstants.EtimeClockCandLogTimes
-        return try await APIService.request(url: url, method: .post, parameters: params, token: token, authType: .basic)
+        return try await APIService.request(url: url, method: .post, parameters: params)
     }
     
     //MARK: - Primary device API
     
-    static func primaryDeviceAPICalling(params: [String: Any], token:String) async throws -> DeviceStatusResponse {
+    static func primaryDeviceAPICalling(params: [String: Any]) async throws -> DeviceStatusResponse {
         let url = APIConstants.baseURL + APIConstants.primaryDevice
-        return try await APIService.request(url: url, method: .post, parameters: params, token: token, authType: .basic)
+        return try await APIService.request(url: url, method: .post, parameters: params)
     }
+    
+    //MARK: - Location Sharing API
+    
+    static func locationSharingAPICalling(params: [String: Any]) async throws -> Location_Modal {
+        let url = APIConstants.baseURL + APIConstants.locationSharingAPI
+        return try await APIService.request(url: url, method: .post, parameters: params)
+    }
+    
+    //MARK: - Push Notification API
+    
+    static func pushNotificationAPICalling(params: [String: Any]) async throws -> PushNotificationModel {
+        let url = APIConstants.baseURL + APIConstants.pushNotificationAPI
+        return try await APIService.request(url: url, method: .post, parameters: params)
+    }
+    
+    //MARK: - Settings API
+    
+    static func settingsAPICalling(params: [String: Any]) async throws -> NotificationResponse {
+        let url = APIConstants.baseURL + APIConstants.settingsOverall
+        return try await APIService.request(url: url, method: .get, urlParams: params)
+    }
+    
+    //MARK: - Multiple Device API
+    
+    static func multipleDeviceAPICalling(params: [String: Any]) async throws -> MultipleDevice_Modal {
+        let url = APIConstants.baseURL + APIConstants.multipleDeviceAPI
+        return try await APIService.request(url: url, method: .get, urlParams: params)
+    }
+    
+    static func sendTestNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Hello 👋"
+        content.body = "This is a test notification."
+        content.sound = .default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request)
+    }
+
 
     
 }

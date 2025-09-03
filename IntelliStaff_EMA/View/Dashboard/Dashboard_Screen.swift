@@ -15,6 +15,9 @@ struct Dashboard_Screen: View {
     @Binding var selectedAssignment: Dashboard_Menu_Items?
     @Binding var showSheet: Bool
     
+    @Binding var showAlert: Bool
+    @Binding var alertMessage: String
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -47,15 +50,27 @@ struct Dashboard_Screen: View {
                 .onAppear {
                     viewModel.fetchDashboard()
                 }
+                .task {
+                    await viewModel.multipleDeviceAPI()
+                }
 
                 if showToast {
                     Toast_View(message: toastMessage)
                         .zIndex(1)
                         .position(x: geo.size.width / 2, y: geo.size.height - 60)
                 }
+                
+                
 
             }
             .animation(.easeInOut, value: selectedAssignment)
+            .onChange(of: viewModel.showAlert) { _, newValue in
+                if newValue {
+                    showAlert = true
+                    alertMessage = viewModel.alertMessage
+                    viewModel.showAlert = false
+                }
+            }
         }
     }
 }
@@ -64,6 +79,8 @@ struct Dashboard_Screen: View {
     struct DashboardScreenPreviewWrapper: View {
         @State private var selectedAssignment: Dashboard_Menu_Items? = nil
         @State private var showSheet: Bool = false // ✅ Added
+        @State private var showAlert: Bool = false
+        @State private var alertMessage = ""
 
         var body: some View {
             let sampleChildren = [
@@ -87,7 +104,9 @@ struct Dashboard_Screen: View {
             return Dashboard_Screen(
                 viewModel: viewModel,
                 selectedAssignment: $selectedAssignment,
-                showSheet: $showSheet // ✅ Passed binding
+                showSheet: $showSheet, // ✅ Passed binding
+                showAlert: $showAlert,
+                alertMessage: $alertMessage
             )
         }
     }

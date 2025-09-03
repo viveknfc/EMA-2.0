@@ -25,6 +25,9 @@ import SwiftUI
         @State private var showSheet = false
         
         @State private var profileVM = ProfileViewModel()
+        
+        @State private var showPrimaryAlert = false
+        @State private var alertMessage = ""
        
        var body: some View {
            GeometryReader { proxy in
@@ -43,23 +46,10 @@ import SwiftUI
                         systemName: "house.fill",
                         safeArea: proxy.safeAreaInsets,
                         content: {
-                            Dashboard_Screen(viewModel: dashboardViewModel, selectedAssignment: $selectedAssignment, showSheet: $showSheet)
+                            Dashboard_Screen(viewModel: dashboardViewModel, selectedAssignment: $selectedAssignment, showSheet: $showSheet, showAlert: $showPrimaryAlert,
+                                alertMessage: $alertMessage)
                         }
                        )
-                       
-//                       ControlView(
-//                        selection: $selection,
-//                        constant: $constant,
-//                        radius: $radius,
-//                        concaveDepth: $concaveDepth,
-//                        color: $color,
-//                        tag: 1,
-//                        systemName: "note.text",
-//                        safeArea: proxy.safeAreaInsets,
-//                        content: {
-//                            Text("Second")
-//                        }
-//                       )
                        
                        ControlView(
                         selection: $selection,
@@ -72,6 +62,7 @@ import SwiftUI
                         safeArea: proxy.safeAreaInsets,
                         content: {
                             Top_TabView(
+                                path: $path,
                                 candidateID: dashboardViewModel.candidateID,
                                 ssn: dashboardViewModel.ssn,
                                 clientId: dashboardViewModel.clientId,
@@ -79,20 +70,6 @@ import SwiftUI
                             )
                         }
                        )
-                       
-//                       ControlView(
-//                        selection: $selection,
-//                        constant: $constant,
-//                        radius: $radius,
-//                        concaveDepth: $concaveDepth,
-//                        color: $color,
-//                        tag: 3,
-//                        systemName: "alarm",
-//                        safeArea: proxy.safeAreaInsets,
-//                        content: {
-//                            Text("Fourth")
-//                        }
-//                       )
                        
                        ControlView(
                         selection: $selection,
@@ -214,6 +191,24 @@ import SwiftUI
                            secondaryButton: AlertButtonConfig(title: "Cancel", action: {}),
                            dismiss: {
                                showLogoutAlert = false
+                           }
+                       )
+                       .transition(.opacity)
+                   }
+                   
+                   if showPrimaryAlert {
+                       AlertView(
+                           title: "Primary Device",
+                           message: alertMessage,
+                           primaryButton: AlertButtonConfig(title: "OK", action: {
+                               showPrimaryAlert = false
+                               dashboardViewModel.updateLocationSharing1()
+                           }),
+                           secondaryButton: AlertButtonConfig(title: "Cancel", action: {
+                               showPrimaryAlert = false
+                           }),
+                           dismiss: {
+                               showPrimaryAlert = false
                            }
                        )
                        .transition(.opacity)

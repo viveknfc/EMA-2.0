@@ -5,11 +5,11 @@
 //  Created by NFC Solutions on 26/08/25.
 
 struct LogTimeRequest: Codable {
-    let candidateId: Int
-    let orderId: Int?
+    let candidateId: String
+    let orderId: String?
     let enteredDate: String
     let mode: String
-    let retry: Int?
+    let retry: String?
     let deviceId: String
     let logIn: String
     let lunchOut: String
@@ -17,9 +17,9 @@ struct LogTimeRequest: Codable {
     let logOut: String
     let lunchOut2: String
     let lunchIn2: String
-    var etcCheck: Int?
-    let latitude: Double?
-    let longitude: Double?
+    var etcCheck: String?
+    let latitude: String?
+    let longitude: String?
     let address: String?
     
     // Extra API-driven fields
@@ -40,7 +40,7 @@ struct LogTimeRequest: Codable {
         case logOut         = "Log_out"
         case lunchOut2      = "Lunch_out2"
         case lunchIn2       = "Lunch_in2"
-        case etcCheck
+        case etcCheck       = "ETCcheck"
         case latitude
         case longitude
         case address        = "Address"
@@ -49,4 +49,5 @@ struct LogTimeRequest: Codable {
         case activeOrderId
     }
 }
+
 

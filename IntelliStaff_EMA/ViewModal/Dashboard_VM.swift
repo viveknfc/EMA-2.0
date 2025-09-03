@@ -13,7 +13,10 @@ class DashboardViewModel {
     var dashboardData: DashboardResponse?
     var menuGroups: [MenuGroup] = []
     var dashboardMenuItems: [Dashboard_Menu_Items] = []
+    var multipleDeviceResponse: MultipleDevice_Modal?
 
+    var showAlert: Bool = false
+    var alertMessage: String = ""
     var isLoading = false
     var errorMessage: String?
     
@@ -162,5 +165,68 @@ class DashboardViewModel {
         default: return "square.grid.2x2"
         }
     }
+    
+    //MARK: - Multiple Device API call
+    
+    func multipleDeviceAPI() async{
+        
+        Task {
+            isLoading = true
+            do {
+                guard let userId = UserDefaults.standard.value(forKey: "userId") as? Int else {
+                    print("User ID not found or not an Int")
+                    return
+                }
+                
+                let params: [String: Any] = [
+                    "candidateId": userId,
+                    "deviceId": shortDeviceId()
+                ]
+                
+                print("params for multiple device api is ", params)
+                
+                let result = try await APIFunction.multipleDeviceAPICalling(params: params)
+                self.multipleDeviceResponse = result
+                
+                print("multiple deivce api resilt is ", result)
+                
+                if result.DeviceStatus == 0 {
+                    showAlert = true
+                    alertMessage = result.DeviceMessage ?? ""
+                }
+                
+                isLoading = false
+            }
+            catch {
+                    self.errorMessage = error.localizedDescription
+                    print("the error for multiple device api is ", self.errorMessage ?? "")
+                    self.isLoading = false
+            }
+        }
+        
+    }
+    
+    //MARK: - Update Location Sharing API
+    
+    func updateLocationSharing1() {
+    
+        let params: [String: Any] = [
+            "DeviceId": shortDeviceId(),
+            "IsActive": "1"
+        ]
+        
+        print("the location sharing1 params is \(params)")
+        
+        Task {
+            do {
+                let locationData = try await APIFunction.locationSharingAPICalling(params: params)
+                print("the location sharing data1 is \(locationData)")
+            } catch {
+                alertMessage = "Something went wrong: \(error.localizedDescription)"
+                print("the error for location sharing is \(alertMessage)")
+            }
+        }
+    }
+
 }
 

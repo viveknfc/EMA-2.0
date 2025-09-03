@@ -16,9 +16,9 @@ struct ETimeClockResponse: Codable {
     let lunchIn2: String?
     let mode: String?
     let enteredDate: String?
-    let lstETimeClockCandOrders: String?   // null → String? (adjust if array/object later)
+    let lstETimeClockCandOrders: String? // keep optional
     let logInDate: String?
-    let etcCheck: Int
+    let etcCheck: Int?                     // optional
     let candidateId: Int
     let timeId: Int
     let workingDate: String?
@@ -26,8 +26,8 @@ struct ETimeClockResponse: Codable {
     let logOutTime: String?
     let lunchInTime: String?
     let lunchOutTime: String?
-    let lunchIn2Time: String?
-    let lunchOut2Time: String?
+    let lunchIn2Time: String?              // optional
+    let lunchOut2Time: String?             // optional
     let weekEnd: String?
     let orderId: Int
     let type: String?
@@ -48,16 +48,16 @@ struct ETimeClockResponse: Codable {
     let showLunchButtons: Int
     let showMealReturn: Int
     let isMultipleLunch: Int
-    let isETCcheck: Int
+    let isETCcheck: Int?                   // optional
     let currentDate: String?
     let order_id: Int
     let successStatus: Int
     let retry: Int
     let sleep: Int
-    let isLogin: Int
-    let isLogOut: Int
-    let isLunchOut: Int
-    let isLunchIn: Int
+    let isLogin: Int?                       // optional
+    let isLogOut: Int?                      // optional
+    let isLunchOut: Int?                    // optional
+    let isLunchIn: Int?                     // optional
     let deviceId: String?
 
     enum CodingKeys: String, CodingKey {
@@ -81,10 +81,10 @@ struct ETimeClockResponse: Codable {
         case workingDate = "WorkingDate"
         case logIn = "Log_in"
         case logOutTime = "Log_out"
-        case lunchInTime = "Lunch_in"
-        case lunchOutTime = "Lunch_out"
-        case lunchIn2Time = "Lunch_in2"
-        case lunchOut2Time = "Lunch_out2"
+        case lunchInTime = "LunchInTime"
+        case lunchOutTime = "LunchOutTime"
+        case lunchIn2Time = "LunchInTime2"
+        case lunchOut2Time = "LunchOutTime2"
         case weekEnd = "WeekEnd"
         case orderId = "OrderId"
         case type = "Type"
@@ -117,4 +117,5 @@ struct ETimeClockResponse: Codable {
         case deviceId = "DeviceId"
     }
 }
+
 

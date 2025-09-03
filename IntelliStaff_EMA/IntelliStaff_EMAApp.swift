@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 @main
 struct IntelliStaff_EMAApp: App {
     
     @StateObject private var errorHandler = GlobalErrorHandler()
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     init() {
         NetworkMonitor.start() // ✅ Start monitoring here

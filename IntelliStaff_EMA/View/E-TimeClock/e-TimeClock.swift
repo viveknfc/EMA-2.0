@@ -51,8 +51,8 @@ struct e_TimeClock: View {
                     Rounded_Rectangle_Button(title: "Meal Out") {
                         Task { await viewModel.logTimeApiCall(mode: "lunchout") }
                     }
-                    .buttonStyle(ETimeClockButtonStyle(isDone: viewModel.isLunchOutDone))
-                    .disabled(viewModel.isLunchOutDone)
+                    .buttonStyle(ETimeClockButtonStyle(isDone: !viewModel.isLunchOutDone))
+                    .disabled(!viewModel.isLunchOutDone)
                     
                     Rounded_Rectangle_Button(title: "Meal Return") {
                         Task { await viewModel.logTimeApiCall(mode: "lunchin") }
@@ -104,6 +104,7 @@ struct e_TimeClock: View {
                 title: "Primary Device",
                 message: viewModel.alertMessage,
                 primaryButton: AlertButtonConfig(title: "OK") {
+                    print("clicked ok from primary alert")
                     viewModel.showPrimaryAlert = false
                     path.append(.settings)  // 👈 navigate to settings
                 },

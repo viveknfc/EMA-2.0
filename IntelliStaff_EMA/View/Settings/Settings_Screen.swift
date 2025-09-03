@@ -20,8 +20,27 @@ struct SettingsScreen: View {
                     
                     VStack {
                         SimpleToggleCard(title: "Turn on/off your location sharing", isOn: $viewModel.shareLocation)
+                            .onChange(of: viewModel.shareLocation) { oldValue, newValue in
+                                if !viewModel.isInitialLoad {
+                                    viewModel.updateLocationSharing(isOn: newValue)
+                                }
+                            }
+                        
                         SimpleToggleCard(title: "Turn on/off app notifications", isOn: $viewModel.appNotifications)
+                            .onChange(of: viewModel.appNotifications) { oldValue, newValue in
+                                if !viewModel.isInitialLoad {
+                                    print("calling push notification")
+                                    viewModel.updatePushNotification(isOn: newValue)
+                                }
+                            }
+                        
                         SimpleToggleCard(title: "Set as primary device", isOn: $viewModel.primaryDevice)
+                            .onChange(of: viewModel.primaryDevice) { oldValue, newValue in
+                                if !viewModel.isInitialLoad && !viewModel.isUpdatingprimaryDevice {
+                                    print("calling primary device api")
+                                    viewModel.updatePrimaryDevice(isOn: newValue)
+                                }
+                            }
                     }
                     .padding(.top, 50)
    
@@ -33,7 +52,7 @@ struct SettingsScreen: View {
             // Custom Alert overlay
             if viewModel.showAlert {
                 AlertView(
-                    title: "Primary Device",
+                    title: "Settings",
                     message: viewModel.alertMessage,
                     primaryButton: AlertButtonConfig(title: "OK") {
                         viewModel.showAlert = false
@@ -64,6 +83,11 @@ struct SettingsScreen: View {
                         .foregroundColor(.white)
                 }
             }
+        }
+        .onAppear {
+            print("the initisl load is, \(viewModel.isInitialLoad)")
+            viewModel.settingsOverallAPI()
+            print("the initisl load is, \(viewModel.isInitialLoad)")
         }
     }
 }

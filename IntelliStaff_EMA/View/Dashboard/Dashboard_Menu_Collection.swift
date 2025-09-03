@@ -33,6 +33,7 @@ struct Dashboard_Menu_Collection: View {
                                 }
                             }
                         } else {
+//                            APIFunction.sendTestNotification()
                             toastMessage = "No sub-categories for this item"
                             if !showToast {
                                 withAnimation {

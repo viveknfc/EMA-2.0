@@ -10,25 +10,17 @@ import SwiftUI
 @MainActor
 @Observable
 class HistoryViewModel {
-     var historyData: [ETimeclock_History_Modal] = []
+     var historyData: [ETimeclockHistoryResponse] = []
      var isLoading = false
      var errorMessage: String?
 
-    func fetchHistory(candidateID: Int, clientId: Int, lastName: String, ssn: String, weekend: Date) async {
+    func fetchHistory(candidateID: Int, weekend: String) async {
         isLoading = true
         errorMessage = nil
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        
         let params: [String: Any] = [
-            "CandidateId": candidateID,
-            "ClientId": clientId,
-            "DateMode": "weekend",
-            "LastName": lastName,
-            "SSN": ssn,
-            "Source": "StandAlone",
-            "Weekend": formatter.string(from: weekend)
+            "CandidateId": "\(candidateID)",
+            "WeekendDate": weekend
         ]
         
         print("the params are:", params, terminator: "\n")

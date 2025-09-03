@@ -20,9 +20,15 @@ enum APIConstants {
     static var CandidateDetailsAPI = "candidateapi/api/Candidate/CandidateDetails"
     static var demoGraphicDetailsAPI = "eregisterapi/api/personalInfo/demographics"
     
-    static var ETimeClockHistory = "TimesheetApi/api/WebETimeClock/GetWebEtimeClockEntries"
+    static var ETimeClockHistory = "TimesheetApi/api/WebETimeClock/GetViewHistory"
     
-    static var GetETCDetails = "TemPositionsEMAAPIDEV/api/ETimeClock/GetETCDetails"
-    static var EtimeClockCandLogTimes = "TemPositionsEMAAPIDEV/api/ETimeClock/EtimeClockCandLogTimes"
-    static var primaryDevice = "TemPositionsEMAAPIDEV/api/Account/Updatecandidateprimarydevice"
+    static var GetETCDetails = "TimesheetApi/api/WebETimeClock/GetETCDetails"
+    static var EtimeClockCandLogTimes = "TimesheetApi/api/WebETimeClock/EtimeClockCandLogTimes"
+    
+    static var primaryDevice = "TimesheetApi/api/WebETimeClock/Updatecandidateprimarydevice"
+    static var locationSharingAPI = "TimesheetApi/api/WebETimeClock/updatecandidatedeviceActiveinfo"
+    static var pushNotificationAPI = "TimesheetApi/api/WebETimeClock/InsertPushNotificationdetails"
+    static var settingsOverall = "TimesheetApi/api/WebETimeClock/GetPushNotificationPrimraryDeviceLocationTrackingDetails"
+    
+    static var multipleDeviceAPI = "TimesheetApi/api/WebETimeClock/GetStatusCandidatedevice"
 }
