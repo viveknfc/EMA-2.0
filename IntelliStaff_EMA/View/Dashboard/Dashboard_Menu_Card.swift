@@ -25,7 +25,7 @@ struct Dashboard_Menu_Card: View {
                     .fontWeight(.medium)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.theme)
-                    .padding([.horizontal, .bottom, .top], 8)
+                    .padding([.horizontal, .bottom, .top], 6)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .aspectRatio(1, contentMode: .fill) // ✅ Makes square
@@ -40,9 +40,9 @@ struct Dashboard_Menu_Card: View {
             // Badge
             if assignment.itemCount > 0 {
                 Text("\(assignment.itemCount)")
-                    .font(.caption)
+                    .font(.bodyFont)
                     .foregroundColor(.white)
-                    .padding(6)
+                    .padding(5)
                     .background(.theme)
                     .clipShape(Circle())
                     .offset(x: -8, y: 8)

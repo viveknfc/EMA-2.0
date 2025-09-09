@@ -29,8 +29,14 @@ class DashboardViewModel {
     var lastName: String?
     
     var showEmptyDashboardAlert: Bool = false
+    private var hasFetchedDashboard = false
+    private var hasCalledMultipleDeviceAPI = false
 
     func fetchDashboard() {
+        
+        guard !hasFetchedDashboard else { return }
+        hasFetchedDashboard = true
+        
         Task {
             isLoading = true
             do {
@@ -177,6 +183,10 @@ class DashboardViewModel {
     //MARK: - Multiple Device API call
     
     func multipleDeviceAPI() async{
+        
+        guard !hasCalledMultipleDeviceAPI else { return }
+        hasCalledMultipleDeviceAPI = true
+        
         isLoading = true
         Task {
             

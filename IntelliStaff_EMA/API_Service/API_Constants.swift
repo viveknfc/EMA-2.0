@@ -13,6 +13,9 @@ enum APIConstants {
     
     static var accessToken = ""
     
+    static var ForgotPasswordOtp = "auth/api/User/sendotp"
+    static var UpdatePassword = "auth/api/User/updatepassword"
+    
     static let ServiceAuthAPI = "auth/api/User/ServiceAuth"
     static var LoginAPI = "auth/api/User/token"
     

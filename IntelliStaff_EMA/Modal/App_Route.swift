@@ -10,8 +10,8 @@ import SwiftUICore
 enum AppRoute: Hashable {
     case login
     case forgotPassword
-    case codeScreen
-    case newPassword
+    case codeScreen(email: String)
+    case newPassword(email: String)
     case dashboard
     case webView(apiKey: String)
     case settings
@@ -26,10 +26,10 @@ extension AppRoute {
             Login_Screen(path: path)
         case .forgotPassword:
             Forgot_Screen(path: path)
-        case .codeScreen:
-            Code_Screen(path: path)
-        case .newPassword:
-            NewPassword_Screen(path: path)
+        case .codeScreen(let email):
+            Code_Screen(path: path, email: email)
+        case .newPassword(let email):
+            NewPassword_Screen(path: path, email: email)
         case .dashboard:
             CurveConcavePreview(path: path, dashboardViewModel: dashboardViewModel)
         case .webView(let apiKey):

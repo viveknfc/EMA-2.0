@@ -12,9 +12,13 @@ struct NewPassword_Screen: View {
     @State private var confirmPassword: String = ""
     @State var isLoginActive = false
     @State private var showAlert = false
+    @State private var successAlert = false
     @State private var alertMessage = ""
     @Environment(\.dismiss) var dismiss
     @Binding var path: [AppRoute]
+    var email: String
+    @State private var viewModel = UpdatePasswordViewModel()
+    @EnvironmentObject var errorHandler: GlobalErrorHandler
 
     var body: some View {
 
@@ -60,7 +64,12 @@ struct NewPassword_Screen: View {
                                 alertMessage = "Password / Confirm Password should be same"
                                 showAlert = true
                             } else {
-                                path.append(.login)
+                                Task {
+                                   let response = await viewModel.updatePassword(email: email, password: password, errorHandler: errorHandler)
+                                    alertMessage = response?.message ?? ""
+                                    successAlert = true
+                                }
+                                
                             }
 
                             print("Update Password tapped")
@@ -97,15 +106,34 @@ struct NewPassword_Screen: View {
                         primaryButton: AlertButtonConfig(title: "OK", action: {
                             print("Primary button tapped")
                         }),
-                        secondaryButton: AlertButtonConfig(title: "Cancel", action: {
-                            print("Cancel tapped")
-                        }),
                         dismiss: {
                             showAlert = false
                         }
                     )
                     .transition(.opacity)
                     .animation(.easeInOut, value: showAlert)
+                }
+                
+                if successAlert {
+                    AlertView(
+                        title: "Alert",
+                        message: alertMessage,
+                        primaryButton: AlertButtonConfig(title: "Ok", action: {
+                            showAlert = false
+                            path.append(.login)
+                        }),
+                        dismiss: {
+                            showAlert = false
+                        }
+                    )
+                    .transition(.opacity)
+                }
+                
+                if viewModel.isLoading {
+                    Color.black.opacity(0.5)
+                        .ignoresSafeArea()
+
+                    TriangleLoader()
                 }
             }
     }
@@ -118,7 +146,7 @@ struct NewPassword_Screen: View {
 
         var body: some View {
             NavigationStack(path: $path) {
-                NewPassword_Screen(path: $path)
+                NewPassword_Screen(path: $path, email: "")
             }
         }
     }

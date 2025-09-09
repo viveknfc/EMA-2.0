@@ -210,11 +210,11 @@ import SwiftUI
                     AlertView(
                         title: "Primary Device",
                         message: alertMessage,
-                        primaryButton: AlertButtonConfig(title: "OK", action: {
+                        primaryButton: AlertButtonConfig(title: "Yes", action: {
                             showPrimaryAlert = false
                             dashboardViewModel.updateLocationSharing1()
                         }),
-                        secondaryButton: AlertButtonConfig(title: "Cancel", action: {
+                        secondaryButton: AlertButtonConfig(title: "No", action: {
                             showPrimaryAlert = false
                         }),
                         dismiss: {

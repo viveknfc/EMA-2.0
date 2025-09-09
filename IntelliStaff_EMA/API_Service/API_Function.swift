@@ -17,6 +17,20 @@ struct APIFunction {
         return try await APIService.request(url: url, method: .post, parameters: params)
     }
     
+    //MARK: - Forgot Password Otp API
+    
+    static func forgotOtpAPICalling(params: [String: Any]) async throws -> ForgotOtpResponse {
+        let url = APIConstants.baseURL + APIConstants.ForgotPasswordOtp
+        return try await APIService.request(url: url, method: .post, parameters: params)
+    }
+    
+    //MARK: - Update Password API
+    
+    static func updatePasswordAPICalling(params: [String: Any]) async throws -> UpdatePasswordResponse {
+        let url = APIConstants.baseURL + APIConstants.UpdatePassword
+        return try await APIService.request(url: url, method: .post, parameters: params)
+    }
+    
     //MARK: - Login API
     
     static func loginAPICalling(params: [String: Any]) async throws -> LoginResponse {
