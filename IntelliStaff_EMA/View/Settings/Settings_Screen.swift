@@ -15,7 +15,9 @@ struct SettingsScreen: View {
                     
                     VStack {
                         UnderlinedTF(title: "Name", text: $name)
+                            .disabled(true)
                         UnderlinedTF(title: "Email", text: $email)
+                            .disabled(true)
                     }
                     
                     VStack {

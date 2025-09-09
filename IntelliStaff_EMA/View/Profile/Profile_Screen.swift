@@ -21,7 +21,35 @@ struct Profile_Screen: View {
                         ForEach(viewModal.profileList) { item in
                             Button {
                                 print("row clicked: \(item.title)")
+                                
+                                if item.title == "View Messages" {
+                                    path.append(.webView(apiKey: "ManageProfile/ViewMessages"))
+                                }
 
+                                if item.title == "Refer A Friend" {
+                                    path.append(.webView(apiKey: "ReferAFriend/ReferAJob"))
+                                }
+                                
+                                if item.title == "upload Credentials" {
+                                    path.append(.webView(apiKey: "ManageProfile/UploadCredentials"))
+                                }
+                                
+                                if item.title == "Upload Photo" {
+                                    path.append(.webView(apiKey: "ManageProfile/UploadPhoto"))
+                                }
+                                
+                                if item.title == "Update Employee Profile" {
+                                    path.append(.webView(apiKey: "ManageProfile/UpdateEmployeeProfile"))
+                                }
+                                
+                                if item.title == "Change Password" {
+                                    path.append(.webView(apiKey: "ManageProfile/ChangePassword"))
+                                }
+                                
+                                if item.title == "Your Reps Info" {
+                                    path.append(.webView(apiKey: "ManageProfile/YourRepsInfo"))
+                                }
+                                
                                 if item.title == "Logout" {
                                     showLogoutAlert = true
                                 }

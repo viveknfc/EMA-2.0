@@ -28,6 +28,8 @@ import SwiftUI
         
         @State private var showPrimaryAlert = false
         @State private var alertMessage = ""
+        
+        @State private var emptyDashboardAlert = false
        
        var body: some View {
            GeometryReader { proxy in
@@ -178,41 +180,64 @@ import SwiftUI
                    }
                }
            }
+           
+           .onChange(of: dashboardViewModel.showEmptyDashboardAlert) { _ , newValue in
+               if newValue {
+                   emptyDashboardAlert = true
+                   dashboardViewModel.showEmptyDashboardAlert = false
+               }
+           }
+           
            .overlay(
-               Group {
-                   if showLogoutAlert {
-                       AlertView(
-                           image: Image(systemName: "exclamationmark.circle.fill"),
-                           title: "Logout",
-                           message: "Are you sure you want to logout?",
-                           primaryButton: AlertButtonConfig(title: "OK", action: {
-                               performLogout()
-                           }),
-                           secondaryButton: AlertButtonConfig(title: "Cancel", action: {}),
-                           dismiss: {
-                               showLogoutAlert = false
-                           }
-                       )
-                       .transition(.opacity)
-                   }
-                   
-                   if showPrimaryAlert {
-                       AlertView(
-                           title: "Primary Device",
-                           message: alertMessage,
-                           primaryButton: AlertButtonConfig(title: "OK", action: {
-                               showPrimaryAlert = false
-                               dashboardViewModel.updateLocationSharing1()
-                           }),
-                           secondaryButton: AlertButtonConfig(title: "Cancel", action: {
-                               showPrimaryAlert = false
-                           }),
-                           dismiss: {
-                               showPrimaryAlert = false
-                           }
-                       )
-                       .transition(.opacity)
-                   }
+            Group {
+                if showLogoutAlert {
+                    AlertView(
+                        image: Image(systemName: "exclamationmark.circle.fill"),
+                        title: "Logout",
+                        message: "Are you sure you want to logout?",
+                        primaryButton: AlertButtonConfig(title: "OK", action: {
+                            performLogout()
+                        }),
+                        secondaryButton: AlertButtonConfig(title: "Cancel", action: {}),
+                        dismiss: {
+                            showLogoutAlert = false
+                        }
+                    )
+                    .transition(.opacity)
+                }
+                
+                if showPrimaryAlert {
+                    AlertView(
+                        title: "Primary Device",
+                        message: alertMessage,
+                        primaryButton: AlertButtonConfig(title: "OK", action: {
+                            showPrimaryAlert = false
+                            dashboardViewModel.updateLocationSharing1()
+                        }),
+                        secondaryButton: AlertButtonConfig(title: "Cancel", action: {
+                            showPrimaryAlert = false
+                        }),
+                        dismiss: {
+                            showPrimaryAlert = false
+                        }
+                    )
+                    .transition(.opacity)
+                }
+                
+                if emptyDashboardAlert {
+                    AlertView(
+                        title: "Alert",
+                        message: "No data available. please retry?",
+                        primaryButton: AlertButtonConfig(title: "Retry", action: {
+                            showPrimaryAlert = false
+                            dashboardViewModel.fetchDashboard()
+                        }),
+                        dismiss: {
+                            showLogoutAlert = false
+                        }
+                    )
+                    .transition(.opacity)
+                }
                }
            )
        }

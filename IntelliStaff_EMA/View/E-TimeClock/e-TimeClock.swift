@@ -52,7 +52,7 @@ struct e_TimeClock: View {
                         Task { await viewModel.logTimeApiCall(mode: "lunchout") }
                     }
                     .buttonStyle(ETimeClockButtonStyle(isDone: !viewModel.isLunchOutDone))
-                    .disabled(!viewModel.isLunchOutDone)
+                    .disabled(viewModel.isLunchOutDone)
                     
                     Rounded_Rectangle_Button(title: "Meal Return") {
                         Task { await viewModel.logTimeApiCall(mode: "lunchin") }

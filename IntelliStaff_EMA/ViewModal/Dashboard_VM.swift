@@ -27,6 +27,8 @@ class DashboardViewModel {
     var ssn: String?
     var clientId: Int?
     var lastName: String?
+    
+    var showEmptyDashboardAlert: Bool = false
 
     func fetchDashboard() {
         Task {
@@ -42,6 +44,12 @@ class DashboardViewModel {
                 ]
                 let result = try await APIFunction.dashboardAPICalling(params: params)
 //                print("the dashbaord result is ", result)
+                
+                if result.objMenuInformationList.isEmpty {
+                    self.showEmptyDashboardAlert = true // Trigger the alert
+                    self.isLoading = false
+                    return
+                }
                 
                 await candidateIDAPI(candidateId: userId)
                 await demographicAPI(candidateId: userId)
@@ -169,9 +177,9 @@ class DashboardViewModel {
     //MARK: - Multiple Device API call
     
     func multipleDeviceAPI() async{
-        
+        isLoading = true
         Task {
-            isLoading = true
+            
             do {
                 guard let userId = UserDefaults.standard.value(forKey: "userId") as? Int else {
                     print("User ID not found or not an Int")
@@ -195,7 +203,7 @@ class DashboardViewModel {
                     alertMessage = result.DeviceMessage ?? ""
                 }
                 
-                isLoading = false
+//                isLoading = false
             }
             catch {
                     self.errorMessage = error.localizedDescription
