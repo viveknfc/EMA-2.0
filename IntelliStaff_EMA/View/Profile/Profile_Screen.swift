@@ -43,7 +43,9 @@ struct Profile_Screen: View {
                                 }
                                 
                                 if item.title == "Change Password" {
-                                    path.append(.webView(apiKey: "ManageProfile/ChangePassword"))
+//                                    path.append(.webView(apiKey: "ManageProfile/ChangePassword"))
+                                    let email = UserDefaults.standard.string(forKey: "Username") ?? ""
+                                    path.append(.newPassword(email: email))
                                 }
                                 
                                 if item.title == "Your Reps Info" {
@@ -66,7 +68,7 @@ struct Profile_Screen: View {
                         }
                     }
                     .padding(.top, 10)
-                    .padding(.horizontal, 0)
+                    .padding(.horizontal, 10)
                 }
                 .onAppear {
                     viewModal.fetchProfileData()

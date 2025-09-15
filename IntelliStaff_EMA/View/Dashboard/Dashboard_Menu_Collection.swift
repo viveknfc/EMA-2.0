@@ -15,11 +15,11 @@ struct Dashboard_Menu_Collection: View {
     @Binding var selectedAssignment: Dashboard_Menu_Items?
     @Binding var showSheet: Bool
 
-    let columns = Array(repeating: GridItem(.flexible(), spacing: 6), count: 3)
+    let columns = Array(repeating: GridItem(.flexible(), spacing: 30), count: 3)
 
     var body: some View {
         ZStack {
-            LazyVGrid(columns: columns, spacing: 6) {
+            LazyVGrid(columns: columns, spacing: 30) {
                 ForEach(assignments) { assignment in
                     Button {
                         if let children = assignment.children, !children.isEmpty {
@@ -52,7 +52,7 @@ struct Dashboard_Menu_Collection: View {
                     .buttonStyle(PlainButtonStyle())
                 }
             }
-            .padding(.horizontal, 6)
+            .padding(.horizontal, 30)
 
         }
     }

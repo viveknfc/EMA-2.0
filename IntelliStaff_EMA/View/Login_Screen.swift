@@ -63,7 +63,14 @@ struct Login_Screen: View {
                         } else {
                             Task {
                                 if (await viewModel.login(username: username, password: password,rememberMe: rememberMe,errorHandler: errorHandler)) != nil {
-                                    path.append(.dashboard)
+                                    
+                                    if viewModel.isPasswordChange {
+                                        let email = UserDefaults.standard.string(forKey: "Username") ?? ""
+                                        path.append(.newPassword(email: email))
+                                    } else {
+                                        path.append(.dashboard)
+                                    }
+                                    
                                 }
                             }
                         }

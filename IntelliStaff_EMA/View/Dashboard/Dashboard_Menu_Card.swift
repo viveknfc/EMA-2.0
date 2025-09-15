@@ -16,7 +16,7 @@ struct Dashboard_Menu_Card: View {
                 Image(systemName: assignment.imageName)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 25, height: 25)
+                    .frame(width: 20, height: 20)
                     .foregroundColor(.theme)
                     .padding(.top, 12)
 
@@ -30,23 +30,23 @@ struct Dashboard_Menu_Card: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .aspectRatio(1, contentMode: .fill) // ✅ Makes square
             .overlay(
-                         RoundedRectangle(cornerRadius: 12)
+                         RoundedRectangle(cornerRadius: 0)
                             .stroke(Color.theme, lineWidth: 0.5) // Stroke border only
                      )
             .background(Color.clear)
-            .cornerRadius(12)
+            .cornerRadius(0)
             .shadow(color: .gray.opacity(0.1), radius: 2, x: 0, y: 1)
 
             // Badge
-            if assignment.itemCount > 0 {
-                Text("\(assignment.itemCount)")
-                    .font(.bodyFont)
-                    .foregroundColor(.white)
-                    .padding(5)
-                    .background(.theme)
-                    .clipShape(Circle())
-                    .offset(x: -8, y: 8)
-            }
+//            if assignment.itemCount > 0 {
+//                Text("\(assignment.itemCount)")
+//                    .font(.bodyFont)
+//                    .foregroundColor(.white)
+//                    .padding(5)
+//                    .background(.theme)
+//                    .clipShape(Circle())
+//                    .offset(x: -8, y: 8)
+//            }
         }
     }
 }

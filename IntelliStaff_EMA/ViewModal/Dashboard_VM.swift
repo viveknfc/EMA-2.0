@@ -13,7 +13,6 @@ class DashboardViewModel {
     var dashboardData: DashboardResponse?
     var menuGroups: [MenuGroup] = []
     var dashboardMenuItems: [Dashboard_Menu_Items] = []
-    var multipleDeviceResponse: MultipleDevice_Modal?
 
     var showAlert: Bool = false
     var alertMessage: String = ""
@@ -203,14 +202,20 @@ class DashboardViewModel {
                 
                 print("params for multiple device api is ", params)
                 
-                let result = try await APIFunction.multipleDeviceAPICalling(params: params)
-                self.multipleDeviceResponse = result
+//                let result = try await APIFunction.multipleDeviceAPICalling(params: params)
                 
-                print("multiple deivce api resilt is ", result)
+                let overallData = try await APIFunction.settingsAPICalling(params: params)
                 
-                if result.DeviceStatus == 0 {
+                print("primary deivce api resilt is ", overallData)
+                
+//                if result.DeviceStatus == 0 {
+//                    showAlert = true
+//                    alertMessage = result.DeviceMessage ?? ""
+//                }
+                
+                if overallData.primaryDeviceMessage?.messageStatus == 0 {
                     showAlert = true
-                    alertMessage = result.DeviceMessage ?? ""
+                    alertMessage = overallData.primaryDeviceMessage?.message ?? ""
                 }
                 
 //                isLoading = false

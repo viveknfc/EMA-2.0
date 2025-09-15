@@ -69,7 +69,7 @@ struct APIService {
             let accessToken = token ?? APIConstants.accessToken
             if !accessToken.isEmpty {
                 finalHeaders["Authorization"] = "Bearer \(accessToken)"
-//                print("the access token is \(accessToken)")
+                print("the access token is \(accessToken)")
             }
 
         case .basic:

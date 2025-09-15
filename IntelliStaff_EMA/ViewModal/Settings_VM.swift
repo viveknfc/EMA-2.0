@@ -169,8 +169,11 @@ class SettingsViewModel {
                 appNotifications = (overallData.pushNotificationMessage?.pushNotificationStatus == 1)
                 primaryDevice = (overallData.primaryDeviceMessage?.messageStatus == 1)
                 
-                alertMessage = overallData.pushNotificationMessage?.pushNotificationMessage ?? ""
-                
+                if !appNotifications {
+                    showAlert = true
+                    alertMessage = overallData.pushNotificationMessage?.pushNotificationMessage ?? ""
+                }
+     
             } catch {
                 alertMessage = "Something went wrong: \(error.localizedDescription)"
             }
@@ -180,7 +183,7 @@ class SettingsViewModel {
                 print("the initisl load is, \(self.isInitialLoad)")
             }
             
-            showAlert = true
+            
             isLoading = false
         }
     }

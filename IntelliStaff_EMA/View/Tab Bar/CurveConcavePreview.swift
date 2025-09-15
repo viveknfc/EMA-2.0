@@ -30,78 +30,136 @@ import SwiftUI
         @State private var alertMessage = ""
         
         @State private var emptyDashboardAlert = false
+        
+        init(path: Binding<[AppRoute]>, dashboardViewModel: DashboardViewModel) {
+            self._path = path
+            self._dashboardViewModel = State(initialValue: dashboardViewModel)
+            
+            // Customize the tab bar appearance here
+            let appearance = UITabBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = UIColor.systemGray6.withAlphaComponent(0.8) // Slight shade
+            
+            // Optional: Add a subtle top border
+            appearance.shadowColor = UIColor.black.withAlphaComponent(0.1)
+            
+            UITabBar.appearance().standardAppearance = appearance
+            UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
+
        
        var body: some View {
            GeometryReader { proxy in
                ZStack {
-                   AxisTabView(selection: $selection, constant: constant) { state in
-                       ATCurveStyle(state, color: color, radius: radius, depth: concaveDepth)
-                   } content: {
+                   
+                   TabView(selection: $selection) {
                        
-                       ControlView(
-                        selection: $selection,
-                        constant: $constant,
-                        radius: $radius,
-                        concaveDepth: $concaveDepth,
-                        color: $color,
-                        tag: 0,
-                        systemName: "house.fill",
-                        safeArea: proxy.safeAreaInsets,
-                        content: {
-                            Dashboard_Screen(viewModel: dashboardViewModel, selectedAssignment: $selectedAssignment, showSheet: $showSheet, showAlert: $showPrimaryAlert,
-                                alertMessage: $alertMessage)
-                        }
+                       Dashboard_Screen(
+                           viewModel: dashboardViewModel,
+                           selectedAssignment: $selectedAssignment,
+                           showSheet: $showSheet,
+                           showAlert: $showPrimaryAlert,
+                           alertMessage: $alertMessage
                        )
-                       
-                       ControlView(
-                        selection: $selection,
-                        constant: $constant,
-                        radius: $radius,
-                        concaveDepth: $concaveDepth,
-                        color: $color,
-                        tag: 2,
-                        systemName: "plus.circle.fill",
-                        safeArea: proxy.safeAreaInsets,
-                        content: {
-                            Top_TabView(
-                                path: $path,
-                                candidateID: dashboardViewModel.candidateID,
-                                ssn: dashboardViewModel.ssn,
-                                clientId: dashboardViewModel.clientId,
-                                lastName: dashboardViewModel.lastName
-                            )
-                        }
-                       )
-                       
-                       ControlView(
-                        selection: $selection,
-                        constant: $constant,
-                        radius: $radius,
-                        concaveDepth: $concaveDepth,
-                        color: $color,
-                        tag: 4,
-                        systemName: "person.fill",
-                        safeArea: proxy.safeAreaInsets,
-                        content: {
-                            Profile_Screen(viewModal: profileVM, showLogoutAlert: $showLogoutAlert, path: $path)
-                        }
-                       )
-                       
-                   } onTapReceive: { selectionTap in
-                       
-                       if self.selection != selectionTap {
-                           DispatchQueue.main.async {
-                               let generator = UIImpactFeedbackGenerator(style: .medium)
-                               generator.prepare()
-                               generator.impactOccurred()
-                           }
+                       .tabItem {
+                           Image(systemName: "house.fill")
+                           Text("Home")
                        }
+                       .tag(0)
                        
-                       /// Imperative syntax
-                       print("---------------------")
-                       print("Selection : ", selectionTap)
-                       print("Already selected : ", self.selection == selectionTap)
+                       Top_TabView(
+                           path: $path,
+                           candidateID: dashboardViewModel.candidateID,
+                           ssn: dashboardViewModel.ssn,
+                           clientId: dashboardViewModel.clientId,
+                           lastName: dashboardViewModel.lastName
+                       )
+                       .tabItem {
+                           Image(systemName: "alarm.fill")
+                           Text("Clock-in")
+                       }
+                       .tag(2)
+                       
+                       Profile_Screen(
+                           viewModal: profileVM,
+                           showLogoutAlert: $showLogoutAlert,
+                           path: $path
+                       )
+                       .tabItem {
+                           Image(systemName: "person.fill")
+                           Text("Profile")
+                       }
+                       .tag(4)
                    }
+                   
+//                   AxisTabView(selection: $selection, constant: constant) { state in
+//                       ATCurveStyle(state, color: color, radius: radius, depth: concaveDepth)
+//                   } content: {
+//                       
+//                       ControlView(
+//                        selection: $selection,
+//                        constant: $constant,
+//                        radius: $radius,
+//                        concaveDepth: $concaveDepth,
+//                        color: $color,
+//                        tag: 0,
+//                        systemName: "house.fill",
+//                        safeArea: proxy.safeAreaInsets,
+//                        content: {
+//                            Dashboard_Screen(viewModel: dashboardViewModel, selectedAssignment: $selectedAssignment, showSheet: $showSheet, showAlert: $showPrimaryAlert,
+//                                alertMessage: $alertMessage)
+//                        }
+//                       )
+//                       
+//                       ControlView(
+//                        selection: $selection,
+//                        constant: $constant,
+//                        radius: $radius,
+//                        concaveDepth: $concaveDepth,
+//                        color: $color,
+//                        tag: 2,
+//                        systemName: "plus.circle.fill",
+//                        safeArea: proxy.safeAreaInsets,
+//                        content: {
+//                            Top_TabView(
+//                                path: $path,
+//                                candidateID: dashboardViewModel.candidateID,
+//                                ssn: dashboardViewModel.ssn,
+//                                clientId: dashboardViewModel.clientId,
+//                                lastName: dashboardViewModel.lastName
+//                            )
+//                        }
+//                       )
+//                       
+//                       ControlView(
+//                        selection: $selection,
+//                        constant: $constant,
+//                        radius: $radius,
+//                        concaveDepth: $concaveDepth,
+//                        color: $color,
+//                        tag: 4,
+//                        systemName: "person.fill",
+//                        safeArea: proxy.safeAreaInsets,
+//                        content: {
+//                            Profile_Screen(viewModal: profileVM, showLogoutAlert: $showLogoutAlert, path: $path)
+//                        }
+//                       )
+//                       
+//                   } onTapReceive: { selectionTap in
+//                       
+//                       if self.selection != selectionTap {
+//                           DispatchQueue.main.async {
+//                               let generator = UIImpactFeedbackGenerator(style: .medium)
+//                               generator.prepare()
+//                               generator.impactOccurred()
+//                           }
+//                       }
+//                       
+//                       /// Imperative syntax
+//                       print("---------------------")
+//                       print("Selection : ", selectionTap)
+//                       print("Already selected : ", self.selection == selectionTap)
+//                   }
                    
                    if selectedAssignment != nil {
                        Color.black.opacity(showSheet ? 0.4 : 0)
@@ -147,11 +205,11 @@ import SwiftUI
                    }
 
                    
-                   if dashboardViewModel.isLoading {
-                       Color.black.opacity(0.5)
-                           .ignoresSafeArea()
-                       TriangleLoader()
-                   }
+//                   if dashboardViewModel.isLoading {
+//                       Color.black.opacity(0.5)
+//                           .ignoresSafeArea()
+//                       TriangleLoader()
+//                   }
                    
 
                }
@@ -212,7 +270,8 @@ import SwiftUI
                         message: alertMessage,
                         primaryButton: AlertButtonConfig(title: "Yes", action: {
                             showPrimaryAlert = false
-                            dashboardViewModel.updateLocationSharing1()
+                            path.append(.settings)
+//                            dashboardViewModel.updateLocationSharing1()
                         }),
                         secondaryButton: AlertButtonConfig(title: "No", action: {
                             showPrimaryAlert = false
@@ -229,11 +288,11 @@ import SwiftUI
                         title: "Alert",
                         message: "No data available. please retry?",
                         primaryButton: AlertButtonConfig(title: "Retry", action: {
-                            showPrimaryAlert = false
+                            emptyDashboardAlert = false
                             dashboardViewModel.fetchDashboard()
                         }),
                         dismiss: {
-                            showLogoutAlert = false
+                            emptyDashboardAlert = false
                         }
                     )
                     .transition(.opacity)

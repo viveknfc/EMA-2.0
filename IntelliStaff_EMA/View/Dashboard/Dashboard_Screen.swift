@@ -28,6 +28,7 @@ struct Dashboard_Screen: View {
                         .resizable()
                         .scaledToFit()
                         .frame(height: 50)
+                        .padding(.top)
 
 //                    // 2. Medium View
 //                    Rectangle_Container(alignment: .topLeading) {
@@ -36,7 +37,7 @@ struct Dashboard_Screen: View {
 //                    .frame(height: 200)
 
                     // 3. Large View
-                    Rectangle_Container {
+//                    Rectangle_Container {
                         ScrollView {
                             Dashboard_Menu_Collection(
                                 assignments: viewModel.dashboardMenuItems,
@@ -45,7 +46,7 @@ struct Dashboard_Screen: View {
                                 selectedAssignment: $selectedAssignment, showSheet: $showSheet
                             )
                         }
-                    }
+//                    }
                 }
                 .onAppear {
                     viewModel.fetchDashboard()

@@ -16,6 +16,7 @@ class LoginViewModel {
     var token: TokenResponse?
     var loginResponse: LoginResponse?
     var isLoginSuccess = false
+    var isPasswordChange = false
 
     func fetchServiceToken(errorHandler: GlobalErrorHandler) async {
         isLoading = true
@@ -59,6 +60,10 @@ class LoginViewModel {
             self.loginResponse = response
             self.isLoginSuccess = true
             // Handle navigation, token storage, etc.
+            
+            APIConstants.accessToken = response.accessToken //added for UAT
+            
+            isPasswordChange = response.isPasswordChange
             
             UserDefaults.standard.set(response.refreshToken, forKey: "refreshToken")
             UserDefaults.standard.set(response.accessToken, forKey: "accessToken")
