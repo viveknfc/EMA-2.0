@@ -26,8 +26,8 @@ struct WebView_Screen: View {
     }
     
     var fullURL: URL {
-        let base = APIConstants.baseURL
-        let support = "EWA2"
+        let base = "https://apps.tempositions.com/"//APIConstants.baseURL
+        let support = "EWA2uat"
         let combined =  "\(base)\(support)/\(cleanedURLKey)"
 
         return URL(string: combined) ?? URL(string: "https://example.com")!

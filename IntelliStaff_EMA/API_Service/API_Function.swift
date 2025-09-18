@@ -34,7 +34,7 @@ struct APIFunction {
     //MARK: - Login API
     
     static func loginAPICalling(params: [String: Any]) async throws -> LoginResponse {
-        let url = APIConstants.baseURL + APIConstants.LoginAPI //APIConstants.baseURL //"https://tempositionsdev.com/"
+        let url = "https://tempositionsdev.com/" + APIConstants.LoginAPI //APIConstants.baseURL //"https://tempositionsdev.com/"
         return try await APIService.request(url: url, method: .post, parameters: params)
     }
     

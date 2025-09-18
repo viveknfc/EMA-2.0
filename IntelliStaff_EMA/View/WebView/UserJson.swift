@@ -38,6 +38,8 @@ func buildWebViewPayload() -> WebViewPayload {
     } else {
         currentUserJson = ""
     }
+    
+    print("the username escaped is \(escapeForJavaScript(username))")
 
     return WebViewPayload(
         currentUserJson: currentUserJson,

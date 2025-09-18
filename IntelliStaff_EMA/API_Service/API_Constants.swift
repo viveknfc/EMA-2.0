@@ -9,30 +9,30 @@ enum APIConstants {
     
     static var DevelopmentURL = "https://tempositionsdev.com/"
     static var ProducitonURL = "https://apps.tempositions.com/"
-    static var UATURL = "http://172.25.16.69/intellistaffUat/"
-    static let baseURL = DevelopmentURL
+    static var UATURL = "https://api.tempositions.com/"
+    static let baseURL = UATURL
     
     static var accessToken = ""
     
-    static var ForgotPasswordOtp = "auth/api/User/sendotp"
-    static var UpdatePassword = "auth/api/User/updatepassword"
+    static var ForgotPasswordOtp = "authuat/api/User/sendotp" //auth/api/
+    static var UpdatePassword = "authuat/api/User/updatepassword" //auth/api/
     
-    static let ServiceAuthAPI = "auth/api/User/ServiceAuth"
-    static var LoginAPI = "auth/api/User/token"
+    static let ServiceAuthAPI = "User/ServiceAuth" //auth/api/
+    static var LoginAPI = "authuat/api/User/token" //auth/api/
     
-    static var EMADashboardDetails = "candidateapi/api/Candidate/GetEMADashboardDetails"
-    static var CandidateDetailsAPI = "candidateapi/api/Candidate/CandidateDetails"
-    static var demoGraphicDetailsAPI = "eregisterapi/api/personalInfo/demographics"
+    static var EMADashboardDetails = "candidateapiuat/api/Candidate/GetEMADashboardDetails"
+    static var CandidateDetailsAPI = "candidateapiuat/api/Candidate/CandidateDetails"
+    static var demoGraphicDetailsAPI = "eregisterapiuat/api/personalInfo/demographics"
     
-    static var ETimeClockHistory = "TimesheetApi/api/WebETimeClock/GetViewHistory"
+    static var ETimeClockHistory = "TimesheetApiuat/api/WebETimeClock/GetViewHistory"
     
-    static var GetETCDetails = "TimesheetApi/api/WebETimeClock/GetETCDetails"
-    static var EtimeClockCandLogTimes = "TimesheetApi/api/WebETimeClock/EtimeClockCandLogTimes"
+    static var GetETCDetails = "TimesheetApiuat/api/WebETimeClock/GetETCDetails"
+    static var EtimeClockCandLogTimes = "TimesheetApiuat/api/WebETimeClock/EtimeClockCandLogTimes"
     
-    static var primaryDevice = "TimesheetApi/api/WebETimeClock/Updatecandidateprimarydevice"
-    static var locationSharingAPI = "TimesheetApi/api/WebETimeClock/updatecandidatedeviceActiveinfo"
-    static var pushNotificationAPI = "TimesheetApi/api/WebETimeClock/InsertPushNotificationdetails"
-    static var settingsOverall = "TimesheetApi/api/WebETimeClock/GetPushNotificationPrimraryDeviceLocationTrackingDetails"
+    static var primaryDevice = "TimesheetApiuat/api/WebETimeClock/Updatecandidateprimarydevice"
+    static var locationSharingAPI = "TimesheetApiuat/api/WebETimeClock/updatecandidatedeviceActiveinfo"
+    static var pushNotificationAPI = "TimesheetApiuat/api/WebETimeClock/InsertPushNotificationdetails"
+    static var settingsOverall = "TimesheetApiuat/api/WebETimeClock/GetPushNotificationPrimraryDeviceLocationTrackingDetails"
     
-    static var multipleDeviceAPI = "TimesheetApi/api/WebETimeClock/GetStatusCandidatedevice"
+    static var multipleDeviceAPI = "TimesheetApiuat/api/WebETimeClock/GetStatusCandidatedevice"
 }
